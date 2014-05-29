@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+  <Extern href="msobtnid.h"/>
+  
+  <Commands package="guidVitevicAssemblyEmbedderPkg">
+   
+    <Buttons>
+      
+      <Button guid="guidVitevicAssemblyEmbedderCmdSet" id="cmdidEmbed" priority="0x1000" type="Button">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_REFERENCE" />
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <!--<CommandFlag>DynamicVisibility</CommandFlag>-->
+        <Strings>
+          <CommandName>Embed</CommandName>
+          <ButtonText>&amp;Embed</ButtonText>
+          <MenuText>&amp;Embed</MenuText>
+          <ToolTipText>Embed</ToolTipText>
+        </Strings>
+      </Button>
+      
+    </Buttons>
+   
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="guidVitevicAssemblyEmbedderPkg" value="{bcb73f7d-0dd7-4683-9f54-5ac49c328125}" />
+
+    <GuidSymbol name="guidVitevicAssemblyEmbedderCmdSet" value="{3dc84af1-20ff-4b7f-88b7-56a808278b13}">
+      <IDSymbol name="cmdidEmbed" value="0x0100" />
+    </GuidSymbol>
+    
+  </Symbols>
+
+</CommandTable>

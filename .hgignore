@@ -1,0 +1,11 @@
+syntax: glob
+*/obj/*
+*/bin/*
+*/Debug/*
+*/Release/*
+*/ipch/*
+*.suo
+*.sdf
+*.opensdf
+*.exe
+packages/*
