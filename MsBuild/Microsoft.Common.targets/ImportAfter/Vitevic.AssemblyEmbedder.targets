@@ -1,0 +1,23 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <CompileDependsOn>
+      $(CompileDependsOn);
+      EmbedReferencedAssemblies
+    </CompileDependsOn>
+  </PropertyGroup>
+
+  <UsingTask TaskName="EmbedAssemblies" AssemblyFile="C:\Projects\Vitevic\AssemblyEmbedder\Vitevic.AssemblyEmbedder\MsBuild\Vitevic.AssemblyEmbedder.MsBuild\bin\Debug\Vitevic.AssemblyEmbedder.MsBuild.dll"/>
+
+  <Target Name="EmbedReferencedAssemblies">
+    <EmbedAssemblies Referenses="@(ReferencePath)" Locals="@(ReferenceCopyLocalPaths)" TargetPath="@(IntermediateAssembly)">
+	<Output TaskParameter="EmbeddedFiles" ItemName="EmbeddedFiles"/>
+    </EmbedAssemblies>
+
+  <ItemGroup>
+   <ReferenceCopyLocalPaths Remove="@(EmbeddedFiles)" />
+  </ItemGroup>
+
+  </Target>
+
+</Project>

@@ -7,10 +7,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitevic.Foundation", "Vitev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitevic.Vsx", "Vitevic.Vsx\Vitevic.Vsx.csproj", "{6A097B7C-7386-4DB4-9845-1830CFFE1085}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1C35188F-2F6D-40D5-AE59-61CD88F41E2A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MsBuild", "MsBuild", "{1EDF017C-921D-450A-91E7-3CB3CC97450B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microsoft.Common.targets", "Microsoft.Common.targets", "{170B5B87-4CF3-4427-A57A-097895602D86}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ImportAfter", "ImportAfter", "{A9239285-B26E-4DB7-9C16-4FC029E96153}"
 	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
+		MsBuild\Microsoft.Common.targets\ImportAfter\Vitevic.AssemblyEmbedder.targets = MsBuild\Microsoft.Common.targets\ImportAfter\Vitevic.AssemblyEmbedder.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitevic.AssemblyEmbedder.MsBuild", "MsBuild\Vitevic.AssemblyEmbedder.MsBuild\Vitevic.AssemblyEmbedder.MsBuild.csproj", "{B519EB62-68E5-468F-BC4D-C52B824440CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,8 +48,19 @@ Global
 		{6A097B7C-7386-4DB4-9845-1830CFFE1085}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6A097B7C-7386-4DB4-9845-1830CFFE1085}.Release|x86.ActiveCfg = Release|x86
 		{6A097B7C-7386-4DB4-9845-1830CFFE1085}.Release|x86.Build.0 = Release|x86
+		{B519EB62-68E5-468F-BC4D-C52B824440CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B519EB62-68E5-468F-BC4D-C52B824440CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B519EB62-68E5-468F-BC4D-C52B824440CF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B519EB62-68E5-468F-BC4D-C52B824440CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B519EB62-68E5-468F-BC4D-C52B824440CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B519EB62-68E5-468F-BC4D-C52B824440CF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{170B5B87-4CF3-4427-A57A-097895602D86} = {1EDF017C-921D-450A-91E7-3CB3CC97450B}
+		{B519EB62-68E5-468F-BC4D-C52B824440CF} = {1EDF017C-921D-450A-91E7-3CB3CC97450B}
+		{A9239285-B26E-4DB7-9C16-4FC029E96153} = {170B5B87-4CF3-4427-A57A-097895602D86}
 	EndGlobalSection
 EndGlobal

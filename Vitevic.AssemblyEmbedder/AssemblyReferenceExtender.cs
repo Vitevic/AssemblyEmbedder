@@ -15,8 +15,6 @@ namespace Vitevic.AssemblyEmbedder
     public class AssemblyReferenceExtender
     {
         protected const String CategoryName = "Advanced";
-        const String EmbedAssemblyName = "EmbedAssembly";
-        const String EmbedAssemblyDependensiesName = "EmbedAssemblyDependensies";
 
         private EnvDTE.IExtenderSite _extenderSite;
         private int _cookie;
@@ -52,21 +50,13 @@ namespace Vitevic.AssemblyEmbedder
         [Category(CategoryName)]
         public bool EmbedAssembly
         {
-            get { return GetMsBuildBool(EmbedAssemblyName); }
+            get { return GetMsBuildBool(Vitevic.AssemblyEmbedder.MsBuild.Attributes.EmbedAssemblyName); }
             set
             {
-                SetMsBuildBool(EmbedAssemblyName, value);
+                SetMsBuildBool(Vitevic.AssemblyEmbedder.MsBuild.Attributes.EmbedAssemblyName, value);
                 if (value)
                     Reference.CopyLocal = false;
             }
-        }
-
-        [DisplayName("Embed Dependensies")]
-        [Category(CategoryName)]
-        public bool EmbedAssemblyDependensies
-        {
-            get { return GetMsBuildBool(EmbedAssemblyDependensiesName); }
-            set { SetMsBuildBool(EmbedAssemblyDependensiesName, value); }
         }
 
         protected bool GetMsBuildBool(String attributeName)
@@ -74,11 +64,7 @@ namespace Vitevic.AssemblyEmbedder
             String value;
             _storage.GetItemAttribute(_itemid, attributeName, out value);
 
-            bool result = false;
-            if (!String.IsNullOrEmpty(value))
-            {
-                result = value.IsEqualNoCase("true") || value == "1";
-            }
+            bool result = Vitevic.AssemblyEmbedder.MsBuild.Attributes.IsTrue(value);
 
             return result;
         }

@@ -52,6 +52,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Vitevic.AssemblyEmbedder.MsBuild, Version=1.0.0.0, Culture=neutral, PublicKeyToken=10b06993d593deb3, processorArchitecture=MSIL" />
     <Reference Include="VSLangProj, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
@@ -169,6 +170,9 @@
       <Name>Vitevic.Vsx</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
@@ -181,7 +185,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
   <Target Name="Obfucsate">
     <Exec Command="&quot;$(SolutionDir)packages\eazfuscator.net.3.3\tools\Eazfuscator.NET.exe&quot; &quot;$(TargetPath)&quot;  --key-file &quot;$(ProjectDir)\Key.snk&quot; --msbuild-project-path &quot;$(ProjectPath)&quot; --msbuild-project-configuration &quot;$(ConfigurationName)&quot; --msbuild-project-platform &quot;$(PlatformName)&quot; --msbuild-solution-path &quot;$(SolutionPath)&quot; -n --newline-flush -v 3.3" />
   </Target>
