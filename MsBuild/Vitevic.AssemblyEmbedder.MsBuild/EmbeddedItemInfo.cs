@@ -11,7 +11,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
 {
     class EmbeddedItemInfo
     {
-        internal const String ResourcePrefix = "Vitevic.Embedded.";
+        internal const String ResourcePrefix = "Vitevic.EmbeddedAssembly.";
 
         internal String Name { get; private set; }
         internal String Path { get; private set; }

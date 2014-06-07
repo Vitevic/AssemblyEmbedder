@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AssemblyEmbedder.cs" />
     <Compile Include="Attributes.cs" />
+    <Compile Include="CodeInjector.cs" />
     <Compile Include="EmbedAssemblies.cs" />
     <Compile Include="EmbeddedItemInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

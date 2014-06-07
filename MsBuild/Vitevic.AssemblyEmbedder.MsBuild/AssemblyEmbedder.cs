@@ -8,30 +8,10 @@ using Microsoft.Build.Utilities;
 using Mono.Cecil;
 using System.IO;
 using Mono.Cecil.Pdb;
-using System.Reflection;
+using Mono.Cecil.Cil;
 
 namespace Vitevic.AssemblyEmbedder.MsBuild
 {
- //private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args) {
- //       var executingAssembly = Assembly.GetExecutingAssembly();
- //       var assemblyName = new AssemblyName(args.Name);
- 
- //       var path = assemblyName.Name + ".dll";
- //       if (assemblyName.CultureInfo.Equals(CultureInfo.InvariantCulture) == false) {
- //           path = String.Format(@"{0}\Vitevic.EmbeddedAssembly.{1}", assemblyName.CultureInfo, path);
- //       }
- 
- //       using (var stream = executingAssembly.GetManifestResourceStream(path)) {
- //           if (stream == null)
- //               return null;
- 
- //           var assemblyRawBytes = new byte[stream.Length];
- //           stream.Read(assemblyRawBytes, 0, assemblyRawBytes.Length);
- //           return Assembly.Load(assemblyRawBytes);
- //       }
- //   }
-
-
     class AssemblyEmbedder
     {
         TaskLoggingHelper _log;
@@ -69,9 +49,9 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             return _removedLocals.ToArray();
         }
 
-        Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
+        System.Reflection.Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
         {
-            var name = new AssemblyName(args.Name).Name.ToLower();
+            var name = new System.Reflection.AssemblyName(args.Name).Name.ToLower();
             switch (name)
             {
                 case "mono.cecil":
@@ -84,15 +64,15 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             return null;
         }
 
-        private static Assembly LoadEmbeddedAssembly(string assemblyName)
+        private static System.Reflection.Assembly LoadEmbeddedAssembly(string assemblyName)
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(assemblyName))
+            using (var stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(assemblyName))
             {
                 if (stream != null)
                 {
                     var data = new Byte[stream.Length];
                     stream.Read(data, 0, data.Length);
-                    return Assembly.Load(data);
+                    return System.Reflection.Assembly.Load(data);
                 }
             }
 
@@ -114,6 +94,9 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                 var resource = new EmbeddedResource(item.Name, ManifestResourceAttributes.Private, data);
                 assembly.MainModule.Resources.Add(resource);
             }
+
+            var injector = new CodeInjector(assembly);
+            injector.Inject();
 
             assembly.Write(targetAssemblyPath, writerParameters);
         }
@@ -150,7 +133,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                     var possibleDocPath = Path.ChangeExtension(embedInfo.Path, "xml");
                     RemoveFromLocals(possibleDocPath);
 
-                    PreparePdb(itemsToEmbed, reference, compress, embedInfo.Path);
+                    //PreparePdb(itemsToEmbed, reference, compress, embedInfo.Path);
                     var embedAssemblyDependensies = Attributes.IsTrue(reference.GetMetadata(Attributes.EmbedAssemblyDependensiesName));
                 }
             }

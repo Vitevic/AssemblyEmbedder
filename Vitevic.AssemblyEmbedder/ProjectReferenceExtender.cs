@@ -14,13 +14,13 @@ namespace Vitevic.AssemblyEmbedder
         {
         }
 
-        [DisplayName("Embed Assembly Pdb")]
-        [Category(CategoryName)]
-        public bool EmbedAssemblyPdb
-        {
-            get { return GetMsBuildBool(MsBuild.Attributes.EmbedAssemblyPdbName); }
-            set { SetMsBuildBool(MsBuild.Attributes.EmbedAssemblyPdbName, value); }
-        }
+        //[DisplayName("Embed Assembly Pdb")]
+        //[Category(CategoryName)]
+        //public bool EmbedAssemblyPdb
+        //{
+        //    get { return GetMsBuildBool(MsBuild.Attributes.EmbedAssemblyPdbName); }
+        //    set { SetMsBuildBool(MsBuild.Attributes.EmbedAssemblyPdbName, value); }
+        //}
 
         [DisplayName("Embed Dependensies")]
         [Category(CategoryName)]
