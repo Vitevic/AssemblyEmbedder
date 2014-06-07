@@ -31,6 +31,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
 
         internal ITaskItem[] Process()
         {
+            AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
             var itemsToEmbed = PrepareItemsToEmbed();
             if (itemsToEmbed.Count > 0)
             {
@@ -40,12 +41,11 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                 }
                 else
                 {
-                    AppDomain.CurrentDomain.AssemblyResolve += OnResolveAssembly;
                     EmbedAssemblies(itemsToEmbed);
-                    AppDomain.CurrentDomain.AssemblyResolve -= OnResolveAssembly;
                 }
             }
 
+            AppDomain.CurrentDomain.AssemblyResolve -= OnResolveAssembly;
             return _removedLocals.ToArray();
         }
 
@@ -98,6 +98,12 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             var injector = new CodeInjector(assembly);
             injector.Inject();
 
+            //if (!String.IsNullOrEmpty(_keyFile) && File.Exists(_keyFile))
+            //{
+            //    writerParameters.StrongNameKeyPair = new System.Reflection.StrongNameKeyPair(_keyFile);
+            //    var pb = writerParameters.StrongNameKeyPair.PublicKey;                
+            //}
+
             assembly.Write(targetAssemblyPath, writerParameters);
         }
 
@@ -134,11 +140,45 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                     RemoveFromLocals(possibleDocPath);
 
                     //PreparePdb(itemsToEmbed, reference, compress, embedInfo.Path);
-                    var embedAssemblyDependensies = Attributes.IsTrue(reference.GetMetadata(Attributes.EmbedAssemblyDependensiesName));
+                    var embedAssemblyDependensies = Attributes.IsTrue(reference.GetMetadata(Attributes.EmbedAssemblyDependenciesName));
+                    if( embedAssemblyDependensies )
+                    {
+                        var projectPath = reference.GetMSBuildSourceProjectFile();
+                        AddProjectDependencies(itemsToEmbed, compress, projectPath);
+                    }                    
                 }
             }
 
             return itemsToEmbed;
+        }
+
+        private void AddProjectDependencies(IList<EmbeddedItemInfo> itemsToEmbed, bool compress, string projectPath)
+        {
+            if (!String.IsNullOrEmpty(projectPath))
+            {
+                var projectDir = System.IO.Path.GetDirectoryName(projectPath);
+                var loadedProject = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectPath).FirstOrDefault();
+                if (loadedProject == null)
+                    return;
+
+                var dependencyProjects = from x in loadedProject.AllEvaluatedItems
+                                         where x.ItemType == "ProjectReference"
+                                         select x;
+                foreach (var project in dependencyProjects)
+                {
+                    var depPath = Path.Combine(projectDir, project.EvaluatedInclude);
+                    depPath = Path.GetFullPath(depPath); // to remove "/../../" in depPath
+                    var depLoadedProject = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.GetLoadedProjects(depPath).FirstOrDefault();
+                    if (depLoadedProject == null)
+                        continue;
+
+                    var dependencyDllPath = depLoadedProject.GetPropertyValue("TargetPath");
+                    var depEmbedInfo = new EmbeddedItemInfo(dependencyDllPath, compress);
+                    itemsToEmbed.Add(depEmbedInfo);
+                    RemoveFromLocals(dependencyDllPath, true);
+                    AddProjectDependencies(itemsToEmbed, compress, depPath);
+                }
+            }
         }
 
         private void PreparePdb(List<EmbeddedItemInfo> itemsToEmbed, ITaskItem reference, bool compress, string assemblyPath)
@@ -156,7 +196,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             }
         }
 
-        private void RemoveFromLocals(string path)
+        private void RemoveFromLocals(string path, bool testFileName = false)
         {
             foreach (var local in _locals)
             {
@@ -165,7 +205,17 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                 {
                     _removedLocals.Add(local);
                 }
+                else if (testFileName)
+                {
+                    var fileName = Path.GetFileName(path);
+                    var localFileName = Path.GetFileName(localPath);
+                    if (0 == String.Compare(fileName, localFileName, true))
+                    {
+                        _removedLocals.Add(local);
+                    }
+                }
             }
         }
+
     }
 }

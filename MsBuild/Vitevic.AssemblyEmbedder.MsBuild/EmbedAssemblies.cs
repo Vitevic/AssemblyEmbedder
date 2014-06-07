@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Build.Framework;
 using Microsoft.Build;
 using Microsoft.Build.Utilities;
+using System.IO;
 
 namespace Vitevic.AssemblyEmbedder.MsBuild
 {
@@ -38,4 +39,5 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             return true;
         }
     }
+
 }

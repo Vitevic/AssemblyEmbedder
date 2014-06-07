@@ -32,6 +32,15 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                 throw new ArgumentNullException("taskItem");
 
             return taskItem.GetMetadata("Extension");
-        }        
+        }
+
+        internal static String GetMSBuildSourceProjectFile(this ITaskItem taskItem)
+        {
+            if (taskItem == null)
+                throw new ArgumentNullException("taskItem");
+
+            return taskItem.GetMetadata("MSBuildSourceProjectFile");
+        }
+        
     }
 }

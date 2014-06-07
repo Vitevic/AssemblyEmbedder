@@ -7,16 +7,16 @@
     </CompileDependsOn>
   </PropertyGroup>
 
-  <UsingTask TaskName="EmbedAssemblies" AssemblyFile="C:\Projects\Vitevic\AssemblyEmbedder\Vitevic.AssemblyEmbedder\MsBuild\Vitevic.AssemblyEmbedder.MsBuild\bin\Debug\Vitevic.AssemblyEmbedder.MsBuild.dll"/>
+  <UsingTask TaskName="EmbedAssemblies" AssemblyName="Vitevic.AssemblyEmbedder.MsBuild, Version=1.0.0.0, PublicKeyToken=10b06993d593deb3"/>
 
   <Target Name="EmbedReferencedAssemblies">
     <EmbedAssemblies Referenses="@(ReferencePath)" Locals="@(ReferenceCopyLocalPaths)" TargetPath="@(IntermediateAssembly)">
-	<Output TaskParameter="EmbeddedFiles" ItemName="EmbeddedFiles"/>
+      <Output TaskParameter="EmbeddedFiles" ItemName="EmbeddedFiles"/>
     </EmbedAssemblies>
 
-  <ItemGroup>
-   <ReferenceCopyLocalPaths Remove="@(EmbeddedFiles)" />
-  </ItemGroup>
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Remove="@(EmbeddedFiles)" />
+    </ItemGroup>
 
   </Target>
 

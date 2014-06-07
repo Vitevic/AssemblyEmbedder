@@ -13,7 +13,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
         public const String EmbedAssemblyName = "EmbedAssembly";
         public const String CompressEmbededDataName = "CompressEmbededData";
         public const String EmbedAssemblyPdbName = "EmbedAssemblyPdb";
-        public const String EmbedAssemblyDependensiesName = "EmbedAssemblyDependensies";
+        public const String EmbedAssemblyDependenciesName = "EmbedAssemblyDependencies";
 
         public static bool IsTrue(String value)
         {

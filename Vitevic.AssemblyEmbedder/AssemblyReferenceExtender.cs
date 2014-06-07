@@ -54,9 +54,14 @@ namespace Vitevic.AssemblyEmbedder
             set
             {
                 SetMsBuildBool(Vitevic.AssemblyEmbedder.MsBuild.Attributes.EmbedAssemblyName, value);
-                if (value)
-                    Reference.CopyLocal = false;
+                OnSetEmbedAssembly(value);
             }
+        }
+
+        protected virtual void OnSetEmbedAssembly(bool value)
+        {
+            if (value)
+                Reference.CopyLocal = false;
         }
 
         protected bool GetMsBuildBool(String attributeName)

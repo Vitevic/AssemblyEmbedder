@@ -22,12 +22,27 @@ namespace Vitevic.AssemblyEmbedder
         //    set { SetMsBuildBool(MsBuild.Attributes.EmbedAssemblyPdbName, value); }
         //}
 
-        [DisplayName("Embed Dependensies")]
+        [DisplayName("Embed Dependencies")]
         [Category(CategoryName)]
-        public bool EmbedAssemblyDependensies
+        public bool EmbedAssemblyDependencies
         {
-            get { return GetMsBuildBool(MsBuild.Attributes.EmbedAssemblyDependensiesName); }
-            set { SetMsBuildBool(MsBuild.Attributes.EmbedAssemblyDependensiesName, value); }
+            get
+            {
+                return GetMsBuildBool(MsBuild.Attributes.EmbedAssemblyDependenciesName);
+            }
+            set
+            {
+                SetMsBuildBool(MsBuild.Attributes.EmbedAssemblyDependenciesName, value);
+                if (value)
+                    EmbedAssembly = true;
+            }
+        }
+
+        protected override void OnSetEmbedAssembly(bool value)
+        {
+            base.OnSetEmbedAssembly(value);
+            if (!value)
+                EmbedAssemblyDependencies = false;
         }
     }
 }
