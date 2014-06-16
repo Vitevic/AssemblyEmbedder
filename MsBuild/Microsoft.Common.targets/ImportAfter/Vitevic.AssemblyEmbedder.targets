@@ -3,13 +3,16 @@
   <PropertyGroup>
     <CompileDependsOn>
       $(CompileDependsOn);
-      EmbedReferencedAssemblies
+      EmbedReferencedAssemblies;
+      ResignAfterEmbedding
     </CompileDependsOn>
   </PropertyGroup>
 
-  <UsingTask TaskName="EmbedAssemblies" AssemblyName="Vitevic.AssemblyEmbedder.MsBuild, Version=1.0.0.0, PublicKeyToken=10b06993d593deb3"/>
+  <UsingTask TaskName="EmbedAssemblies" AssemblyName="Vitevic.AssemblyEmbedder.MsBuild, Version=1.0.0.0, Culture=neutral, PublicKeyToken=10b06993d593deb3"/>
+  <UsingTask TaskName="FindSnTool" AssemblyName="Vitevic.AssemblyEmbedder.MsBuild, Version=1.0.0.0, Culture=neutral, PublicKeyToken=10b06993d593deb3"/>
 
   <Target Name="EmbedReferencedAssemblies">
+
     <EmbedAssemblies Referenses="@(ReferencePath)" Locals="@(ReferenceCopyLocalPaths)" TargetPath="@(IntermediateAssembly)">
       <Output TaskParameter="EmbeddedFiles" ItemName="EmbeddedFiles"/>
     </EmbedAssemblies>
@@ -18,6 +21,19 @@
       <ReferenceCopyLocalPaths Remove="@(EmbeddedFiles)" />
     </ItemGroup>
 
+  </Target>
+
+  <Target Name="ResignAfterEmbedding" Condition="'$(SignAssembly)' == 'true' and '$(DelaySign)' != 'true' and '@(EmbeddedFiles)' != ''">
+    <GetFrameworkSdkPath>
+	<Output TaskParameter="Path" PropertyName="VV_FrameworkSdkPath" />
+    </GetFrameworkSdkPath>
+
+    <FindSnTool FrameworkSdkPath="$(VV_FrameworkSdkPath)" PredefinedSnToolPath="$(VV_PredefinedSnToolPath)">
+       <Output TaskParameter="SnToolPath" PropertyName="VV_SnToolPath"/>
+    </FindSnTool>
+
+    <Exec Command="&quot;$(VV_SnToolPath)&quot; -q -R &quot;@(IntermediateAssembly)&quot; &quot;$(KeyOriginatorFile)&quot;" WorkingDirectory="$(ProjectDir)" CustomErrorRegularExpression=".*">
+    </Exec>
   </Target>
 
 </Project>
