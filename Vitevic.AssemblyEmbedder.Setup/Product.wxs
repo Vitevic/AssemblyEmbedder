@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define ProductName="Vitevic Assembly Embedder" ?>
+  <?define ProductVersion="1.0.0.0" ?>
+  <?define ProductAuthor="Vitevic Software" ?>
+  <?define ProductId="E6C68C5B-D082-4C86-99C4-58A59CFCE3DC" ?>
+  <?define ProductUpgradeCode="cfd68ef0-a7a7-4155-8b16-9e61604cfe80" ?>
+  
+  
+	<Product Id="$(var.ProductId)" Name="$(var.ProductName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.ProductAuthor)" UpgradeCode="$(var.ProductUpgradeCode)">
+    
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x86" />
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="StudioExtension" Title="Vitevic Assembly Embedder" Level="1" AllowAdvertise="yes">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+    
+    <Feature Id="MSBuildPart" Title="Vitevic Assembly Embedder MsBuild" Level="1" AllowAdvertise="no">
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild40Targets"/>
+      <ComponentRef Id="MsBuild12Targets"/>
+    </Feature>
+
+    <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
+    <UIRef Id="WixUI_InstallDir"/>
+  </Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="MsBuildRoot" Name="MSBuild">
+          
+          <Directory Id="GAC" Name="GAC">
+            <Component Id="MsBuildTaskDll" Guid="BED97DE8-D4FD-4899-8030-80F6A493704E">
+              <File Source="$(var.Vitevic.AssemblyEmbedder.MsBuild.TargetPath)" Assembly=".net" KeyPath="yes"/>
+            </Component>
+          </Directory>
+
+          <?define TargetsFile="$(var.SolutionDir)\MsBuild\Microsoft.Common.targets\ImportAfter\Vitevic.AssemblyEmbedder.targets" ?>
+          
+          <Directory Id="MsBuild40" Name="4.0">
+            <Directory Id="MsBuild40.Microsoft.Common.targets" Name="Microsoft.Common.targets">
+              <Directory Id="MsBuild40.ImportAfter" Name="ImportAfter">
+                <Component Id="MsBuild40Targets" Guid="DB3776D9-387B-43B0-BC37-36814FF158A9">
+                  <File Id="MsBuild40TargetsFile" Source="$(var.TargetsFile)"/>
+                </Component>
+              </Directory>
+            </Directory>
+          </Directory>
+          
+          <Directory Id="MsBuild12" Name="12.0">
+            <Directory Id="MsBuild12.Microsoft.Common.targets" Name="Microsoft.Common.targets">
+              <Directory Id="MsBuild12.ImportAfter" Name="ImportAfter">
+                <Component Id="MsBuild12Targets" Guid="99FF0D8E-7F37-4FAC-930A-60FAAE09965C">
+                  <File Id="MsBuild12TargetsFile" Source="$(var.TargetsFile)"/>
+                </Component>
+              </Directory>
+            </Directory>
+          </Directory>
+
+        </Directory>
+        </Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents">
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			<!-- <Component Id="ProductComponent"> -->
+				<!-- TODO: Insert files, registry keys, and other resources here. -->
+			<!-- </Component> -->
+		</ComponentGroup>
+	</Fragment>
+</Wix>

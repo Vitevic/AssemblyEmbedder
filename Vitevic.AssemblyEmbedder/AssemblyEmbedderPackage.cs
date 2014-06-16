@@ -17,7 +17,8 @@ namespace Vitevic.AssemblyEmbedder
     [VsxCommandGroup(GuidList.CmdSetGuidString)]
     public sealed class AssemblyEmbedderPackage : BasePackage
     {
-        int _extenderRegistrationCookie;        
+        const int EmptyCookie = -1;
+        int _extenderRegistrationCSharpCookie = EmptyCookie;
 
         protected override void PackageInitialize()
         {
@@ -26,8 +27,19 @@ namespace Vitevic.AssemblyEmbedder
 
             var solution = GetGlobalService<SVsSolution,IVsSolution>();
             var extenderProvider = new ReferenceExtenderProvider(IDE, solution);
-            _extenderRegistrationCookie = objectExtenders.RegisterExtenderProvider(VSLangProj.PrjBrowseObjectCATID.prjCATIDCSharpReferenceBrowseObject,
+            _extenderRegistrationCSharpCookie = objectExtenders.RegisterExtenderProvider(VSLangProj.PrjBrowseObjectCATID.prjCATIDCSharpReferenceBrowseObject,
                 ReferenceExtenderProvider.ExtenderName, extenderProvider);
+        }
+
+        protected override void PackageCleanup()
+        {
+            var objectExtenders = GetService<ObjectExtenders>();
+
+            if (_extenderRegistrationCSharpCookie != EmptyCookie && objectExtenders != null)
+            {
+                objectExtenders.UnregisterExtenderProvider(_extenderRegistrationCSharpCookie);
+                _extenderRegistrationCSharpCookie = EmptyCookie;
+            }
         }
 
         [VsxCommandAction(PkgCmdIDList.cmdidEmbed)]
