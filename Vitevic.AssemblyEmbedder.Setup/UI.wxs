@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?include Constants.wxi ?>
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
     <!--<UIRef Id="WixUI_InstallDir"/>-->
@@ -7,9 +9,19 @@
     <PropertyRef Id="VS2012DEVENV"/>
     <PropertyRef Id="VS2013DEVENV"/>
 
-    <SetProperty Id="VV_INSTALL_2010" After="AppSearch" Value="1">VS2010DEVENV</SetProperty>
-    <SetProperty Id="VV_INSTALL_2012" After="AppSearch" Value="1">VS2012DEVENV</SetProperty>
-    <SetProperty Id="VV_INSTALL_2013" After="AppSearch" Value="1">VS2013DEVENV</SetProperty>
+    <Property Id="VV_2010_INSTALLED">
+      <ComponentSearch Id="VS2010Search" Guid="$(var.Vs2010MainGuid)" />
+    </Property>
+    <Property Id="VV_2012_INSTALLED">
+      <ComponentSearch Id="VS2012Search" Guid="$(var.Vs2012MainGuid)" />
+    </Property>
+    <Property Id="VV_2013_INSTALLED">
+      <ComponentSearch Id="VS2013Search" Guid="$(var.Vs2013MainGuid)" />
+    </Property>
+
+    <SetProperty Id="VV_INSTALL_2010" After="AppSearch" Value="1">(VS2010DEVENV AND NOT Installed) OR (Installed AND VV_2010_INSTALLED)</SetProperty>
+    <SetProperty Id="VV_INSTALL_2012" After="AppSearch" Value="1">(VS2012DEVENV AND NOT Installed) OR (Installed AND VV_2012_INSTALLED)</SetProperty>
+    <SetProperty Id="VV_INSTALL_2013" After="AppSearch" Value="1">(VS2013DEVENV AND NOT Installed) OR (Installed AND VV_2013_INSTALLED)</SetProperty>
 
     <UI Id="Vitevic_VS">
       <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
@@ -57,7 +69,8 @@
         </Control>
         
         <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)">
-          <Publish Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
+          <Publish Event="NewDialog" Value="LicenseAgreementDlg" Order="1">NOT Installed</Publish>
+          <Publish Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed</Publish>
         </Control>
         
         <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
@@ -85,12 +98,10 @@
 
       <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
 
+      <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="SelectVisualStudioDlg">1</Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
       <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
-
-      <!--Control panel functionality -->
-      <Property Id="ARPNOMODIFY" Value="1" />
     </UI>
 
     <UIRef Id="WixUI_Common" />

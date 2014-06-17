@@ -18,7 +18,7 @@
 
   <Fragment>
     <ComponentGroup Id="VS2012_AssemblyEmbedder" Directory="VS2012_AssemblyEmbedderDir">
-      <Component Guid="{9D2C49A9-AD89-4F8E-85DD-B19A1ADADADF}">
+      <Component Guid="$(var.Vs2012MainGuid)">
         <File Id="VS2012_AssemblyEmbedder.dll" Source="$(var.Vitevic.AssemblyEmbedder.TargetPath)" KeyPath="yes"/>
       </Component>
       <Component Guid="{82773FCA-567A-4C62-909B-0D39C9E41ADE}">

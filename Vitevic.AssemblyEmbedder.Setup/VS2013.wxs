@@ -18,7 +18,7 @@
 
   <Fragment>
     <ComponentGroup Id="VS2013_AssemblyEmbedder" Directory="VS2013_AssemblyEmbedderDir">
-      <Component Guid="{21A194A2-7563-43F1-8013-E4D59CD21985}">
+      <Component Guid="$(var.Vs2013MainGuid)">
         <File Id="VS2013_AssemblyEmbedder.dll" Source="$(var.Vitevic.AssemblyEmbedder.TargetPath)" KeyPath="yes"/>
       </Component>
       <Component Guid="{04185822-F723-4DD3-8B59-38E6C1726A4C}">

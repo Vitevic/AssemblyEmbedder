@@ -5,7 +5,9 @@
 <?define ProductAuthor="Vitevic Software" ?>
 <?define ProductId="E6C68C5B-D082-4C86-99C4-58A59CFCE3DC" ?>
 <?define ProductUpgradeCode="cfd68ef0-a7a7-4155-8b16-9e61604cfe80" ?>
-
+<?define Vs2010MainGuid="DB7DD96C-ABA8-4B56-9E2E-82E287B7B75B"?>
+<?define Vs2012MainGuid="9D2C49A9-AD89-4F8E-85DD-B19A1ADADADF"?>
+<?define Vs2013MainGuid="21A194A2-7563-43F1-8013-E4D59CD21985"?>
 <Include>
 	<!-- TODO: Put your code here. -->
 </Include>

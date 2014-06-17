@@ -18,7 +18,7 @@
 
   <Fragment>
     <ComponentGroup Id="VS2010_AssemblyEmbedder" Directory="VS2010_AssemblyEmbedderDir">
-      <Component>
+      <Component Guid="$(var.Vs2010MainGuid)">
         <File Id="VS2010_AssemblyEmbedder.dll" Source="$(var.Vitevic.AssemblyEmbedder.TargetPath)" KeyPath="yes"/>
       </Component>
       <Component>
