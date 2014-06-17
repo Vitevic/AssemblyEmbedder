@@ -9,44 +9,25 @@
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate EmbedCab="yes" />
 
-    <PropertyRef Id="VS2010DEVENV"/>
-    <PropertyRef Id="VS2012DEVENV"/>
-    <PropertyRef Id="VS2013DEVENV"/>
-    
-    <!--<Feature Id="MSBuild40Feature" Title="MsBuild 4.0" AllowAdvertise="yes">
-      <ComponentRef Id="MsBuildTaskDll"/>
-      <ComponentRef Id="MsBuild40Targets"/>
-    </Feature>
-      
-    <Feature Id="MSBuild12Feature" Title="MsBuild 12.0" AllowAdvertise="yes">
-      <ComponentRef Id="MsBuildTaskDll"/>
-      <ComponentRef Id="MsBuild12Targets"/>
-    </Feature>-->
-
-    <Feature Id="VS2010Feature" Title="Visual Studio 2010" AllowAdvertise="yes" Level="1">
-      <Condition Level="1">VS2010DEVENV</Condition>
+    <Feature Id="VS2010Feature" Title="Visual Studio 2010" Level="1">
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild40Targets"/>
       <ComponentGroupRef Id="VS2010_AssemblyEmbedder"/>
     </Feature>
 
     <Feature Id="VS2012Feature" Title="Visual Studio 2012" AllowAdvertise="yes" Level="1">
-      <Condition Level="0">VS2012DEVENV</Condition>
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild12Targets"/>
       <ComponentGroupRef Id="VS2012_AssemblyEmbedder"/>
     </Feature>
 
     <Feature Id="VS2013Feature" Title="Visual Studio 2013" AllowAdvertise="yes" Level="1">
-      <Condition Level="0">VS2013DEVENV</Condition>
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild12Targets"/>
       <ComponentGroupRef Id="VS2013_AssemblyEmbedder"/>
     </Feature>
 
-    <DirectoryRef Id="VS2010_AssemblyEmbedderDir"/>
-    <Property Id="WIXUI_INSTALLDIR" Value="VS2010_AssemblyEmbedderDir" />
     <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
-    <UIRef Id="WixUI_Mondo"/>    
+    <UIRef Id="Vitevic_VS"/>
   </Product>
 </Wix>
