@@ -197,6 +197,11 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CreateVsixContainer>True</CreateVsixContainer>
+    <DeployExtension>False</DeployExtension>
+    <CopyVsixExtensionFiles>False</CopyVsixExtensionFiles>
+    <CopyVsixExtensionLocation>
+    </CopyVsixExtensionLocation>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\VSSDK\Microsoft.VsSDK.targets" />
@@ -211,8 +216,6 @@
     <Exec Command="&quot;$(SolutionDir)packages\eazfuscator.net.3.3\tools\Eazfuscator.NET.exe&quot; &quot;$(TargetPath)&quot;  --key-file &quot;$(ProjectDir)\Key.snk&quot; --msbuild-project-path &quot;$(ProjectPath)&quot; --msbuild-project-configuration &quot;$(ConfigurationName)&quot; --msbuild-project-platform &quot;$(PlatformName)&quot; --msbuild-solution-path &quot;$(SolutionPath)&quot; -n --newline-flush -v 3.3" />
   </Target>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release'">
-    <CreateVsixContainerDependsOn>
-      Obfucsate;$(CreateVsixContainerDependsOn)
-    </CreateVsixContainerDependsOn>
+    <CopyPkgDefDependsOn>$(CopyPkgDefDependsOn);Obfucsate</CopyPkgDefDependsOn>
   </PropertyGroup>
 </Project>

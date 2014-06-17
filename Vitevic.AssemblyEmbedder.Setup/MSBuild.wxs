@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?define TargetsFile="$(var.SolutionDir)\MsBuild\Microsoft.Common.targets\ImportAfter\Vitevic.AssemblyEmbedder.targets" ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+
+        <Directory Id="MSBuildExtensionsFolder" Name="MSBuild"/>
+
+        <Directory Id="GAC" Name="GAC">
+          <Component Id="MsBuildTaskDll">
+            <File Source="$(var.Vitevic.AssemblyEmbedder.MsBuild.TargetPath)" Assembly=".net" KeyPath="yes"/>
+          </Component>
+        </Directory>
+
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="MSBuildExtensionsFolder">
+      <Directory Id="MSBuildExtensions12Folder" Name="12.0">
+        <Directory Id="CommonTargets12" Name="Microsoft.Common.Targets">
+          <Directory Id="ImportAfter12" Name="ImportAfter">
+            <Component Id="MsBuild12Targets">
+              <File Id="MsBuild12TargetsFile" Source="$(var.TargetsFile)"/>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="MSBuildExtensionsFolder">
+      <Directory Id="MSBuildExtensions4Folder" Name="4.0">
+        <Directory Id="CommonTargets4" Name="Microsoft.Common.Targets">
+          <Directory Id="ImportAfter4" Name="ImportAfter">
+            <Component Id="MsBuild40Targets">
+              <File Id="MsBuild40TargetsFile" Source="$(var.TargetsFile)"/>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+</Wix>

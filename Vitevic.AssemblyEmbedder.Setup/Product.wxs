@@ -1,135 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?include Constants.wxi ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:vs="http://schemas.microsoft.com/wix/VSExtension">
-  
-  <?define ProductName="Vitevic Assembly Embedder" ?>
-  <?define ProductVersion="1.0.0.0" ?>
-  <?define ProductAuthor="Vitevic Software" ?>
-  <?define ProductId="E6C68C5B-D082-4C86-99C4-58A59CFCE3DC" ?>
-  <?define ProductUpgradeCode="cfd68ef0-a7a7-4155-8b16-9e61604cfe80" ?>  
-  
-	<Product Id="$(var.ProductId)" Name="$(var.ProductName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.ProductAuthor)" UpgradeCode="$(var.ProductUpgradeCode)">
+
+	<Product Id="$(var.ProductId)" Name="$(var.ProductFullName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.ProductAuthor)" UpgradeCode="$(var.ProductUpgradeCode)">
     
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x86" />
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate EmbedCab="yes" />
 
-    <Feature Id="MSBuildPart" Title="Vitevic Assembly Embedder MsBuild" Level="1" AllowAdvertise="no"
-             Display='expand' ConfigurableDirectory='INSTALLDIR'>
+    <PropertyRef Id="VS2010DEVENV"/>
+    <PropertyRef Id="VS2012DEVENV"/>
+    <PropertyRef Id="VS2013DEVENV"/>
+    
+    <!--<Feature Id="MSBuild40Feature" Title="MsBuild 4.0" AllowAdvertise="yes">
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild40Targets"/>
+    </Feature>
+      
+    <Feature Id="MSBuild12Feature" Title="MsBuild 12.0" AllowAdvertise="yes">
+      <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild12Targets"/>
+    </Feature>-->
+
+    <Feature Id="VS2010Feature" Title="Visual Studio 2010" AllowAdvertise="yes" Level="1">
+      <Condition Level="1">VS2010DEVENV</Condition>
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild40Targets"/>
+      <ComponentGroupRef Id="VS2010_AssemblyEmbedder"/>
     </Feature>
 
-    <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFilesFolder">
+    <Feature Id="VS2012Feature" Title="Visual Studio 2012" AllowAdvertise="yes" Level="1">
+      <Condition Level="0">VS2012DEVENV</Condition>
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild12Targets"/>
+      <ComponentGroupRef Id="VS2012_AssemblyEmbedder"/>
+    </Feature>
 
-        <Directory Id="Vitevic" Name="Vitevic">
-          <Directory Id="INSTALLDIR" Name="Assembly Embedder"/>
-        </Directory>
+    <Feature Id="VS2013Feature" Title="Visual Studio 2013" AllowAdvertise="yes" Level="1">
+      <Condition Level="0">VS2013DEVENV</Condition>
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild12Targets"/>
+      <ComponentGroupRef Id="VS2013_AssemblyEmbedder"/>
+    </Feature>
 
-        <Directory Id="MsBuildRoot" Name="MSBuild">
-
-          <Directory Id="GAC" Name="GAC">
-            <Component Id="MsBuildTaskDll" Guid="BED97DE8-D4FD-4899-8030-80F6A493704E">
-              <File Source="$(var.Vitevic.AssemblyEmbedder.MsBuild.TargetPath)" Assembly=".net" KeyPath="yes"/>
-            </Component>
-          </Directory>
-
-          <?define TargetsFile="$(var.SolutionDir)\MsBuild\Microsoft.Common.targets\ImportAfter\Vitevic.AssemblyEmbedder.targets" ?>
-
-          <Directory Id="MsBuild40Dir" Name="4.0">
-            <Directory Id="CommonTargets40Dir" Name="Microsoft.Common.targets">
-              <Directory Id="ImportAfter40Dir" Name="ImportAfter">
-                <Component Id="MsBuild40Targets" Guid="DB3776D9-387B-43B0-BC37-36814FF158A9">
-                  <File Id="MsBuild40TargetsFile" Source="$(var.TargetsFile)"/>
-                </Component>
-              </Directory>
-            </Directory>
-          </Directory>
-
-          <Directory Id="MsBuild12Dir" Name="12.0">
-            <Directory Id="CommonTargets12Dir" Name="Microsoft.Common.targets">
-              <Directory Id="ImportAfter12Dir" Name="ImportAfter">
-                <Component Id="MsBuild12Targets" Guid="99FF0D8E-7F37-4FAC-930A-60FAAE09965C">
-                  <File Id="MsBuild12TargetsFile" Source="$(var.TargetsFile)"/>
-                </Component>
-              </Directory>
-            </Directory>
-
-          </Directory>
-        </Directory>
-      </Directory>
-    </Directory>
-    
-    <PropertyRef Id="VS2010DEVENV" />
-    <PropertyRef Id="VS2012DEVENV" />
-    <PropertyRef Id="VS2013DEVENV" />
-    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
-
+    <DirectoryRef Id="VS2010_AssemblyEmbedderDir"/>
+    <Property Id="WIXUI_INSTALLDIR" Value="VS2010_AssemblyEmbedderDir" />
     <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
-    <!--<UIRef Id="WixUI_InstallDir"/>-->
-
-    <UI Id="Vitevic_VS">
-      <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
-      <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
-      <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
-
-      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
-      <Property Id="WixUI_Mode" Value="Vitevic_VS" />
-
-      <!--<DialogRef Id="DiskCostDlg" />-->
-      <DialogRef Id="ErrorDlg" />
-      <DialogRef Id="FatalError" />
-      <DialogRef Id="FilesInUse" />
-      <DialogRef Id="MsiRMFilesInUse" />
-      <!--<DialogRef Id="PrepareDlg" />-->
-      <DialogRef Id="ProgressDlg" />
-      <DialogRef Id="ResumeDlg" />
-      <DialogRef Id="UserExit" />
-
-      <Dialog Id="SelectVisualStudioDlg" Width="370" Height="270" Title="Select Visual Studio">
-        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)" />
-        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
-        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
-          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
-        </Control>
-
-        <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.FeaturesDlgDescription)" />
-        <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.FeaturesDlgTitle)" />
-        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.FeaturesDlgBannerBitmap)" />
-        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
-        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
-      </Dialog>
-
-      <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath" Order="3">1</Publish>
-      <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
-
-      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
-
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">NOT Installed</Publish>
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
-
-      <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
-      <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="SelectVisualStudioDlg">LicenseAccepted = "1"</Publish>
-
-      <Publish Dialog="SelectVisualStudioDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
-      <Publish Dialog="SelectVisualStudioDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="4">1</Publish>
-
-      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="SelectVisualStudioDlg" Order="1">NOT Installed</Publish>
-      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed AND NOT PATCH</Publish>
-      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">Installed AND PATCH</Publish>
-
-      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
-
-      <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-      <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-      <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
-
-      <Property Id="ARPNOMODIFY" Value="1" />
-    </UI>
-
-    <UIRef Id="WixUI_Common" />
+    <UIRef Id="WixUI_Mondo"/>    
   </Product>
-
 </Wix>

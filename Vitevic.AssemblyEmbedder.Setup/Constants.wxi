@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?define ProductName="Assembly Embedder" ?>
+<?define ProductFullName ="Vitevic $(var.ProductName)" ?>
+<?define ProductVersion="1.0.0.0" ?>
+<?define ProductAuthor="Vitevic Software" ?>
+<?define ProductId="E6C68C5B-D082-4C86-99C4-58A59CFCE3DC" ?>
+<?define ProductUpgradeCode="cfd68ef0-a7a7-4155-8b16-9e61604cfe80" ?>
+
+<Include>
+	<!-- TODO: Put your code here. -->
+</Include>

@@ -19,9 +19,15 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <VerboseOutput>False</VerboseOutput>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="MSBuild.wxs" />
     <Compile Include="Product.wxs" />
+    <Compile Include="UI.wxs" />
+    <Compile Include="VS2010.wxs" />
+    <Compile Include="VS2012.wxs" />
+    <Compile Include="VS2013.wxs" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUIExtension">
@@ -42,8 +48,17 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
+    <ProjectReference Include="..\Vitevic.AssemblyEmbedder\Vitevic.AssemblyEmbedder.csproj">
+      <Name>Vitevic.AssemblyEmbedder</Name>
+      <Project>{3c4d92e6-50d5-4912-be0b-7fbd91b8bbe7}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Constants.wxi" />
     <Content Include="License.rtf" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
