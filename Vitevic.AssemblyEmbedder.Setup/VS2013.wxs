@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?include Constants.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:vs="http://schemas.microsoft.com/wix/VSExtension">
-  
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:vs="http://schemas.microsoft.com/wix/VSExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
   <Fragment>
     <PropertyRef Id="VS2013_EXTENSIONS_DIR"/>
 
@@ -17,9 +19,12 @@
   </Fragment>
 
   <Fragment>
+    <PropertyRef Id="VS2013DEVENV"/>
+    
     <ComponentGroup Id="VS2013_AssemblyEmbedder" Directory="VS2013_AssemblyEmbedderDir">
       <Component Guid="$(var.Vs2013MainGuid)">
         <File Id="VS2013_AssemblyEmbedder.dll" Source="$(var.Vitevic.AssemblyEmbedder.TargetPath)" KeyPath="yes"/>
+        <util:RestartResource Id="Restart2013" Path="[VS2013DEVENV]" />
       </Component>
       <Component Guid="{04185822-F723-4DD3-8B59-38E6C1726A4C}">
         <File Id="VS2013_extension.vsixmanifest" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)extension.vsixmanifest" KeyPath="yes"/>

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?include Constants.wxi ?>
 
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:vs="http://schemas.microsoft.com/wix/VSExtension">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:vs="http://schemas.microsoft.com/wix/VSExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   
   <Fragment>
+
     <PropertyRef Id="VS2010_EXTENSIONS_DIR"/>
 
     <DirectoryRef Id="ProgramFilesFolder">
@@ -17,9 +20,11 @@
   </Fragment>
 
   <Fragment>
+    <PropertyRef Id="VS2010DEVENV"/>
     <ComponentGroup Id="VS2010_AssemblyEmbedder" Directory="VS2010_AssemblyEmbedderDir">
       <Component Guid="$(var.Vs2010MainGuid)">
         <File Id="VS2010_AssemblyEmbedder.dll" Source="$(var.Vitevic.AssemblyEmbedder.TargetPath)" KeyPath="yes"/>
+        <util:RestartResource Id="Restart2010" Path="[VS2010DEVENV]" />
       </Component>
       <Component>
         <File Id="VS2010_extension.vsixmanifest" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)extension.vsixmanifest" KeyPath="yes"/>

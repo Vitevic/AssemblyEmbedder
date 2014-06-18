@@ -3,25 +3,33 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
-    <!--<UIRef Id="WixUI_InstallDir"/>-->
 
     <PropertyRef Id="VS2010DEVENV"/>
     <PropertyRef Id="VS2012DEVENV"/>
     <PropertyRef Id="VS2013DEVENV"/>
 
-    <Property Id="VV_2010_INSTALLED">
+    <Property Id="VV_2010_INSTALLED" Secure="yes">
       <ComponentSearch Id="VS2010Search" Guid="$(var.Vs2010MainGuid)" />
     </Property>
-    <Property Id="VV_2012_INSTALLED">
+    <Property Id="VV_2012_INSTALLED" Secure="yes">
       <ComponentSearch Id="VS2012Search" Guid="$(var.Vs2012MainGuid)" />
     </Property>
-    <Property Id="VV_2013_INSTALLED">
+    <Property Id="VV_2013_INSTALLED" Secure="yes">
       <ComponentSearch Id="VS2013Search" Guid="$(var.Vs2013MainGuid)" />
     </Property>
 
+    <Property Id="VV_UPDATE_SETUP_2012" Secure="yes"/>
+    <Property Id="VV_UPDATE_SETUP_2013" Secure="yes"/>
+    
     <SetProperty Id="VV_INSTALL_2010" After="AppSearch" Value="1">(VS2010DEVENV AND NOT Installed) OR (Installed AND VV_2010_INSTALLED)</SetProperty>
     <SetProperty Id="VV_INSTALL_2012" After="AppSearch" Value="1">(VS2012DEVENV AND NOT Installed) OR (Installed AND VV_2012_INSTALLED)</SetProperty>
     <SetProperty Id="VV_INSTALL_2013" After="AppSearch" Value="1">(VS2013DEVENV AND NOT Installed) OR (Installed AND VV_2013_INSTALLED)</SetProperty>
+
+    <!-- http://blogs.msdn.com/b/dsvst/archive/2012/10/08/your-vs-package-may-not-load-after-porting-it-to-vs-2012.aspx -->
+    <InstallExecuteSequence>
+      <Custom Action="VS2012Setup" Before="InstallFinalize">VV_UPDATE_SETUP_2012 = "1" OR (REMOVE AND VV_2012_INSTALLED)</Custom>
+      <Custom Action="VS2013Setup" Before="InstallFinalize">VV_UPDATE_SETUP_2013 = "1" OR (REMOVE AND VV_2013_INSTALLED)</Custom>
+    </InstallExecuteSequence>
 
     <UI Id="Vitevic_VS">
       <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
@@ -30,6 +38,9 @@
 
       <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
       <Property Id="WixUI_Mode" Value="Vitevic_VS" />
+
+      <ProgressText Action="VS2012Setup" Template="[1]">Updating Visual Studio 2012 registration</ProgressText>
+      <ProgressText Action="VS2013Setup" Template="[1]">Updating Visual Studio 2013 registration</ProgressText>
 
       <!--<DialogRef Id="DiskCostDlg" />-->
       <DialogRef Id="ErrorDlg" />
@@ -43,28 +54,26 @@
 
       <Dialog Id="SelectVisualStudioDlg" Width="370" Height="270" Title="Select Visual Studio">
 
-        <Control Id="VS2010CheckBox" Type="CheckBox" X="20" Y="80" Width="290" Height="17" Property="VV_INSTALL_2010" CheckBoxValue="1" Text="Visual Studio 2010">
+        <Control Id="VS2010CheckBox" Type="CheckBox" X="20" Y="60" Width="290" Height="17" Property="VV_INSTALL_2010" CheckBoxValue="1" Text="Visual Studio 2010">
           <Condition Action="disable">NOT VS2010DEVENV</Condition>
         </Control>
-        <Control Id="VS2012CheckBox" Type="CheckBox" X="20" Y="120" Width="290" Height="17" Property="VV_INSTALL_2012" CheckBoxValue="1" Text="Visual Studio 2012">
+        <Control Id="VS2012CheckBox" Type="CheckBox" X="20" Y="90" Width="290" Height="17" Property="VV_INSTALL_2012" CheckBoxValue="1" Text="Visual Studio 2012">
           <Condition Action="disable">NOT VS2012DEVENV</Condition>
         </Control>
-        <Control Id="VS2013CheckBox" Type="CheckBox" X="20" Y="160" Width="290" Height="17" Property="VV_INSTALL_2013" CheckBoxValue="1" Text="Visual Studio 2013">
+        <Control Id="VS2013CheckBox" Type="CheckBox" X="20" Y="120" Width="290" Height="17" Property="VV_INSTALL_2013" CheckBoxValue="1" Text="Visual Studio 2013">
           <Condition Action="disable">NOT VS2013DEVENV</Condition>
         </Control>
 
         <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
-          <!--<Publish Event="AddLocal" Value="ALL" Order="1">1</Publish>
-          <Publish Event="Remove" Value="VS2010Feature" Order="1">NOT VV_INSTALL_2010</Publish>
-          <Publish Event="Remove" Value="VS2012Feature" Order="2">NOT VV_INSTALL_2012</Publish>
-          <Publish Event="Remove" Value="VS2013Feature" Order="3">NOT VV_INSTALL_2013</Publish>
-          <Publish Event="NewDialog" Value="VerifyReadyDlg" Order="4">1</Publish>-->
           <Publish Event="Remove" Value="ALL" Order="1">1</Publish>
           <Publish Event="AddLocal" Value="VS2010Feature" Order="2">VV_INSTALL_2010</Publish>
           <Publish Event="AddLocal" Value="VS2012Feature" Order="3">VV_INSTALL_2012</Publish>
           <Publish Event="AddLocal" Value="VS2013Feature" Order="4">VV_INSTALL_2013</Publish>
           <Publish Event="NewDialog" Value="VerifyReadyDlg" Order="5">1</Publish>
-          <Condition Action="disable"><![CDATA[VV_INSTALL_2010 <> "1"]]></Condition>
+          <Publish Property="VV_UPDATE_SETUP_2012" Value="1" Order="6">VV_INSTALL_2012</Publish>
+          <Publish Property="VV_UPDATE_SETUP_2013" Value="1" Order="7">VV_INSTALL_2013</Publish>
+          
+          <Condition Action="disable"><![CDATA[VV_INSTALL_2010 <> "1" AND VV_INSTALL_2012 <> "1" AND VV_INSTALL_2013 <> "1"]]></Condition>
           <Condition Action="enable">(VV_INSTALL_2010 = "1") OR (VV_INSTALL_2012 = "1") OR (VV_INSTALL_2013 = "1")</Condition>
         </Control>
         
@@ -105,5 +114,6 @@
     </UI>
 
     <UIRef Id="WixUI_Common" />
+
   </Fragment>
 </Wix>
