@@ -33,6 +33,9 @@
         <File Id="VS2010_logo_small2.ico" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)logo_small2.ico" KeyPath="yes"/>
       </Component>
       <Component>
+        <File Id="VS2010_Screenshot.png" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)Screenshot.png" KeyPath="yes"/>
+      </Component>
+      <Component>
         <File Id="VS2010_Vitevic.AssemblyEmbedder.pkgdef" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)Vitevic.AssemblyEmbedder.pkgdef" KeyPath="yes"/>
       </Component>
       <Component>

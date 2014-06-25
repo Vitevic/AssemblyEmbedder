@@ -32,6 +32,9 @@
       <Component Guid="{FC978798-E61F-42EE-A947-7C20A34200FD}">
         <File Id="VS2013_logo_small2.ico" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)logo_small2.ico" KeyPath="yes"/>
       </Component>
+      <Component>
+        <File Id="VS2013_Screenshot.png" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)Screenshot.png" KeyPath="yes"/>
+      </Component>
       <Component Guid="{C12B8E8C-3F31-45F3-845C-512A41E4FEC7}">
         <File Id="VS2013_Vitevic.AssemblyEmbedder.pkgdef" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)Vitevic.AssemblyEmbedder.pkgdef" KeyPath="yes"/>
       </Component>

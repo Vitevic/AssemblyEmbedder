@@ -27,8 +27,8 @@
 
     <!-- http://blogs.msdn.com/b/dsvst/archive/2012/10/08/your-vs-package-may-not-load-after-porting-it-to-vs-2012.aspx -->
     <InstallExecuteSequence>
-      <Custom Action="VS2012Setup" Before="InstallFinalize">VV_UPDATE_SETUP_2012 = "1" OR (REMOVE AND VV_2012_INSTALLED)</Custom>
-      <Custom Action="VS2013Setup" Before="InstallFinalize">VV_UPDATE_SETUP_2013 = "1" OR (REMOVE AND VV_2013_INSTALLED)</Custom>
+      <Custom Action="VS2012Setup" Before="InstallFinalize">(VV_UPDATE_SETUP_2012 = "1") OR (REMOVE AND VV_2012_INSTALLED)</Custom>
+      <Custom Action="VS2013Setup" Before="InstallFinalize">(VV_UPDATE_SETUP_2013 = "1") OR (REMOVE AND VV_2013_INSTALLED)</Custom>
     </InstallExecuteSequence>
 
     <UI Id="Vitevic_VS">

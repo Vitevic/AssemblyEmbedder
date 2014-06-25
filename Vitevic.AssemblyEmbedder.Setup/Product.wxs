@@ -3,9 +3,8 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:vs="http://schemas.microsoft.com/wix/VSExtension">
 
-	<Product Id="$(var.ProductId)" Name="$(var.ProductFullName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.ProductAuthor)" UpgradeCode="$(var.ProductUpgradeCode)">
-    
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x86" />
+  <Product Id="$(var.ProductId)" Name="$(var.ProductFullName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.ProductAuthor)" UpgradeCode="$(var.ProductUpgradeCode)">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x86" />
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate EmbedCab="yes" />
 
@@ -29,5 +28,11 @@
 
     <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>
     <UIRef Id="Vitevic_VS"/>
+
+    <Icon Id="MainIcon" SourceFile="$(var.Vitevic.AssemblyEmbedder.TargetDir)logo_small2.ico"/>    
+    <Property Id="ARPPRODUCTICON" Value="MainIcon" />
+    <!--<WixVariable Id="WixUIDialogBmp" Value="..\..\..\dlgbmp.bmp" />-->
+    <WixVariable Id="WixUIBannerBmp" Value="..\..\..\bannrbmp.bmp" />
+
   </Product>
 </Wix>

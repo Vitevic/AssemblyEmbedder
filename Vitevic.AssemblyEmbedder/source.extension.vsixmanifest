@@ -8,6 +8,7 @@
     <Locale>1033</Locale>
     <License>VitevicFreewareLicense.rtf</License>
     <Icon>logo_small2.ico</Icon>
+    <PreviewImage>Screenshot.png</PreviewImage>
     <InstalledByMsi>true</InstalledByMsi>
     <SupportedProducts>
       <VisualStudio Version="10.0">
