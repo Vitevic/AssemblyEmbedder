@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?define ProductName="Assembly Embedder" ?>
 <?define ProductFullName ="Vitevic $(var.ProductName)" ?>
-<?define ProductVersion="1.0.0.0" ?>
+<?define ProductVersion="1.0.1.0" ?>
 <?define ProductAuthor="Vitevic Software" ?>
-<?define ProductId="E6C68C5B-D082-4C86-99C4-58A59CFCE3DC" ?>
+<!--First VersionId: <?define ProductId="E6C68C5B-D082-4C86-99C4-58A59CFCE3DC" ?>-->
+<?define ProductId="07638796-12A1-4FC2-8EE1-C3C3050C0F80" ?>
 <?define ProductUpgradeCode="cfd68ef0-a7a7-4155-8b16-9e61604cfe80" ?>
 <?define Vs2010MainGuid="DB7DD96C-ABA8-4B56-9E2E-82E287B7B75B"?>
 <?define Vs2012MainGuid="9D2C49A9-AD89-4F8E-85DD-B19A1ADADADF"?>
 <?define Vs2013MainGuid="21A194A2-7563-43F1-8013-E4D59CD21985"?>
+<?define MSBuild4TargetGuid="C636E76A-0758-4DBC-89DD-351DE4009674"?>
+<?define MSBuild12TargetGuid="1F92A2C3-B7B5-4CD0-8BCB-EBE3EB672F69"?>
 <Include>
 	<!-- TODO: Put your code here. -->
 </Include>

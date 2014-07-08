@@ -3,10 +3,34 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:vs="http://schemas.microsoft.com/wix/VSExtension">
 
-  <Product Id="$(var.ProductId)" Name="$(var.ProductFullName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.ProductAuthor)" UpgradeCode="$(var.ProductUpgradeCode)">
+  <Product Id="$(var.ProductId)" Name="$(var.ProductFullName)" Language="1033" Version="$(var.ProductVersion)"
+           Manufacturer="$(var.ProductAuthor)" UpgradeCode="$(var.ProductUpgradeCode)">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" Platform="x86" />
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    
+    <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
+    <Upgrade Id="$(var.ProductUpgradeCode)">
+      <UpgradeVersion
+         Minimum="1.0.0.0" Maximum="1.0.1.0"
+         Property="PREVIOUSVERSIONSINSTALLED"
+         IncludeMinimum="yes" IncludeMaximum="no" />
+    </Upgrade>
+
+    <!-- http://stackoverflow.com/questions/114165/how-to-implement-wix-installer-upgrade
+      Why afterInstallFinalize:
+           Another benefit is efficiency: if there are unchanged files, Windows Installer doesn't bother copying them 
+           again when you schedule after InstallFinalize. If you schedule after InstallInitialize, the previous version
+           is completely removed first, and then the new version is installed. This results in unnecessary deletion and recopying of files.-->
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." Schedule="afterInstallFinalize" />
 		<MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="MSBuild4Feature" Title="MSBuild4" Level="1">
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild40Targets"/>
+    </Feature>
+    <Feature Id="MSBuild12Feature" Title="MSBuild12" Level="1">
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild12Targets"/>
+    </Feature>
 
     <Feature Id="VS2010Feature" Title="Visual Studio 2010" Level="1">
       <ComponentRef Id="MsBuildTaskDll"/>

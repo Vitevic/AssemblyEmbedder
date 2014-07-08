@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?define TargetsFile="$(var.SolutionDir)\MsBuild\Microsoft.Common.targets\ImportAfter\Vitevic.AssemblyEmbedder.targets" ?>
+<?include Constants.wxi ?>
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   
@@ -24,7 +25,7 @@
       <Directory Id="MSBuildExtensions12Folder" Name="12.0">
         <Directory Id="CommonTargets12" Name="Microsoft.Common.Targets">
           <Directory Id="ImportAfter12" Name="ImportAfter">
-            <Component Id="MsBuild12Targets">
+            <Component Id="MsBuild12Targets" Guid="$(var.MSBuild12TargetGuid)">
               <File Id="MsBuild12TargetsFile" Source="$(var.TargetsFile)"/>
             </Component>
           </Directory>
@@ -38,7 +39,7 @@
       <Directory Id="MSBuildExtensions4Folder" Name="4.0">
         <Directory Id="CommonTargets4" Name="Microsoft.Common.Targets">
           <Directory Id="ImportAfter4" Name="ImportAfter">
-            <Component Id="MsBuild40Targets">
+            <Component Id="MsBuild40Targets" Guid="$(var.MSBuild4TargetGuid)">
               <File Id="MsBuild40TargetsFile" Source="$(var.TargetsFile)"/>
             </Component>
           </Directory>

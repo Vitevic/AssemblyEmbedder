@@ -17,6 +17,12 @@
     <Property Id="VV_2013_INSTALLED" Secure="yes">
       <ComponentSearch Id="VS2013Search" Guid="$(var.Vs2013MainGuid)" />
     </Property>
+    <Property Id="VV_MSBUILD4_INSTALLED" Secure="yes">
+      <ComponentSearch Id="MSBuild4Search" Guid="$(var.MSBuild4TargetGuid)" />
+    </Property>
+    <Property Id="VV_MSBUILD12_INSTALLED" Secure="yes">
+      <ComponentSearch Id="MSBuild12Search" Guid="$(var.MSBuild12TargetGuid)" />
+    </Property>
 
     <Property Id="VV_UPDATE_SETUP_2012" Secure="yes"/>
     <Property Id="VV_UPDATE_SETUP_2013" Secure="yes"/>
@@ -24,7 +30,9 @@
     <SetProperty Id="VV_INSTALL_2010" After="AppSearch" Value="1">(VS2010DEVENV AND NOT Installed) OR (Installed AND VV_2010_INSTALLED)</SetProperty>
     <SetProperty Id="VV_INSTALL_2012" After="AppSearch" Value="1">(VS2012DEVENV AND NOT Installed) OR (Installed AND VV_2012_INSTALLED)</SetProperty>
     <SetProperty Id="VV_INSTALL_2013" After="AppSearch" Value="1">(VS2013DEVENV AND NOT Installed) OR (Installed AND VV_2013_INSTALLED)</SetProperty>
-
+    <SetProperty Id="VV_INSTALL_MSBUILD_4" After="AppSearch" Value="1">VV_INSTALL_2010 OR VV_MSBUILD4_INSTALLED</SetProperty>
+    <SetProperty Id="VV_INSTALL_MSBUILD_12" After="AppSearch" Value="1">VV_INSTALL_2012 OR VV_INSTALL_2013 OR VV_MSBUILD12_INSTALLED</SetProperty>
+    
     <!-- http://blogs.msdn.com/b/dsvst/archive/2012/10/08/your-vs-package-may-not-load-after-porting-it-to-vs-2012.aspx -->
     <InstallExecuteSequence>
       <Custom Action="VS2012Setup" Before="InstallFinalize">(VV_UPDATE_SETUP_2012 = "1") OR (REMOVE AND VV_2012_INSTALLED)</Custom>
@@ -56,12 +64,26 @@
 
         <Control Id="VS2010CheckBox" Type="CheckBox" X="20" Y="60" Width="290" Height="17" Property="VV_INSTALL_2010" CheckBoxValue="1" Text="Visual Studio 2010">
           <Condition Action="disable">NOT VS2010DEVENV</Condition>
+          <Publish  Property="VV_INSTALL_MSBUILD_4" Value="[VV_INSTALL_2010]">1</Publish>
         </Control>
         <Control Id="VS2012CheckBox" Type="CheckBox" X="20" Y="90" Width="290" Height="17" Property="VV_INSTALL_2012" CheckBoxValue="1" Text="Visual Studio 2012">
           <Condition Action="disable">NOT VS2012DEVENV</Condition>
+          <Publish  Property="VV_INSTALL_MSBUILD_12" Value="[VV_INSTALL_2012]">NOT VV_INSTALL_2013</Publish>
+          <Publish  Property="VV_INSTALL_MSBUILD_12" Value="1">VV_INSTALL_2013 AND VS2013DEVENV</Publish>
         </Control>
         <Control Id="VS2013CheckBox" Type="CheckBox" X="20" Y="120" Width="290" Height="17" Property="VV_INSTALL_2013" CheckBoxValue="1" Text="Visual Studio 2013">
           <Condition Action="disable">NOT VS2013DEVENV</Condition>
+          <Publish  Property="VV_INSTALL_MSBUILD_12" Value="[VV_INSTALL_2013]">1</Publish>
+          <Publish  Property="VV_INSTALL_MSBUILD_12" Value="1">VV_INSTALL_2012 AND VS2012DEVENV</Publish>
+        </Control>
+        
+        <Control Id="MSBuild4CheckBox" Type="CheckBox" X="20" Y="150" Width="290" Height="17" Property="VV_INSTALL_MSBUILD_4" CheckBoxValue="1" Text="MSBuild 4.0 Targets">
+          <Condition Action="disable">VV_INSTALL_2010</Condition>
+          <Condition Action="enable">NOT VV_INSTALL_2010</Condition>
+        </Control>
+        <Control Id="MSBuild12CheckBox" Type="CheckBox" X="20" Y="180" Width="290" Height="17" Property="VV_INSTALL_MSBUILD_12" CheckBoxValue="1" Text="MSBuild 12.0 Targets">
+          <Condition Action="disable">VV_INSTALL_2012 OR VV_INSTALL_2013</Condition>
+          <Condition Action="enable">NOT (VV_INSTALL_2012 OR VV_INSTALL_2013)</Condition>
         </Control>
 
         <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
@@ -72,9 +94,11 @@
           <Publish Event="NewDialog" Value="VerifyReadyDlg" Order="5">1</Publish>
           <Publish Property="VV_UPDATE_SETUP_2012" Value="1" Order="6">VV_INSTALL_2012</Publish>
           <Publish Property="VV_UPDATE_SETUP_2013" Value="1" Order="7">VV_INSTALL_2013</Publish>
+          <Publish Event="AddLocal" Value="MSBuild4Feature" Order="8">VV_INSTALL_MSBUILD_4</Publish>
+          <Publish Event="AddLocal" Value="MSBuild12Feature" Order="9">VV_INSTALL_MSBUILD_12</Publish>
           
-          <Condition Action="disable"><![CDATA[VV_INSTALL_2010 <> "1" AND VV_INSTALL_2012 <> "1" AND VV_INSTALL_2013 <> "1"]]></Condition>
-          <Condition Action="enable">(VV_INSTALL_2010 = "1") OR (VV_INSTALL_2012 = "1") OR (VV_INSTALL_2013 = "1")</Condition>
+          <Condition Action="disable"><![CDATA[VV_INSTALL_2010 <> "1" AND VV_INSTALL_2012 <> "1" AND VV_INSTALL_2013 <> "1" AND VV_INSTALL_MSBUILD_12 <> "1" AND VV_INSTALL_MSBUILD_4 <> "1"]]></Condition>
+          <Condition Action="enable">(VV_INSTALL_2010 = "1") OR (VV_INSTALL_2012 = "1") OR (VV_INSTALL_2013 = "1") OR (VV_INSTALL_MSBUILD_4 = "1") OR (VV_INSTALL_MSBUILD_12 = "1")</Condition>
         </Control>
         
         <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)">
