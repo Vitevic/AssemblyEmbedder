@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Vsix xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="1.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2010">
-  <Identifier Id="Vitevic.Assembly.Embedder.bcb73f7d-0dd7-4683-9f54-5ac49c328125">
+  <Identifier Id="Vitevic.Assembly.Embedder.1.0.1.bcb73f7d-0dd7-4683-9f54-5ac49c328125">
     <Name>Vitevic Assembly Embedder</Name>
     <Author>Vitevic Software</Author>
     <Version>1.0.1</Version>
