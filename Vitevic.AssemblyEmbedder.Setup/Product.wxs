@@ -31,6 +31,10 @@
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild12Targets"/>
     </Feature>
+    <Feature Id="MSBuild14Feature" Title="MSBuild14" Level="1">
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild14Targets"/>
+    </Feature>
 
     <Feature Id="VS2010Feature" Title="Visual Studio 2010" Level="1">
       <ComponentRef Id="MsBuildTaskDll"/>
@@ -48,6 +52,12 @@
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild12Targets"/>
       <ComponentGroupRef Id="VS2013_AssemblyEmbedder"/>
+    </Feature>
+
+    <Feature Id="VS2015Feature" Title="Visual Studio 2015" AllowAdvertise="yes" Level="1">
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild14Targets"/>
+      <ComponentGroupRef Id="VS2015_AssemblyEmbedder"/>
     </Feature>
 
     <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>

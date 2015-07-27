@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?include Constants.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:vs="http://schemas.microsoft.com/wix/VSExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <Fragment>
+    <PropertyRef Id="VS2015_EXTENSIONS_DIR"/>
+
+    <DirectoryRef Id="ProgramFilesFolder">
+      <Directory Id="VS2015_EXTENSIONS_DIR" Name="Extensions2015"> <!-- Extensions2015 is not a valid name, it's workaround for ICE30 -->
+        <Directory Id="VS2015_VitevicDir" Name="$(var.ProductAuthor)">
+          <Directory Id="VS2015_AssemblyEmbedderDir" Name="$(var.ProductName)"/>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+
+  </Fragment>
+
+  <Fragment>
+    <PropertyRef Id="VS2015DEVENV"/>
+    
+    <ComponentGroup Id="VS2015_AssemblyEmbedder" Directory="VS2015_AssemblyEmbedderDir">
+      <Component Guid="$(var.Vs2015MainGuid)">
+        <File Id="VS2015_AssemblyEmbedder.dll" Source="$(var.Vitevic.AssemblyEmbedder.TargetPath)" KeyPath="yes"/>
+        <util:RestartResource Id="Restart2015" Path="[VS2015DEVENV]" />
+      </Component>
+      <Component Guid="{4E8BCE81-EFFE-4BC6-9863-17B8801F5D49}">
+        <File Id="VS2015_extension.vsixmanifest" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)extension.vsixmanifest" KeyPath="yes"/>
+      </Component>
+      <Component Guid="{49EDCF3A-6963-4346-875B-B93402E6BA1A}">
+        <File Id="VS2015_logo_small2.ico" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)logo_small2.ico" KeyPath="yes"/>
+      </Component>
+      <Component>
+        <File Id="VS2015_Screenshot.png" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)Screenshot.png" KeyPath="yes"/>
+      </Component>
+      <Component Guid="{69946B07-3638-486E-B732-D4EEB8792BC4}">
+        <File Id="VS2015_Vitevic.AssemblyEmbedder.pkgdef" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)Vitevic.AssemblyEmbedder.pkgdef" KeyPath="yes"/>
+      </Component>
+      <Component Guid="{72189040-5506-4445-86DF-532726CB8204}">
+        <File Id="VS2015_Vitevic.Foundation.dll" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)Vitevic.Foundation.dll" KeyPath="yes"/>
+      </Component>
+      <Component Guid="{8C6DE795-2E28-4C58-A48E-81A15DDE050E}">
+        <File Id="VS2015_Vitevic.Vsx.dll" Source="$(var.Vitevic.AssemblyEmbedder.TargetDir)Vitevic.Vsx.dll" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+  
+</Wix>

@@ -22,6 +22,20 @@
 
   <Fragment>
     <DirectoryRef Id="MSBuildExtensionsFolder">
+      <Directory Id="MSBuildExtensions4Folder" Name="4.0">
+        <Directory Id="CommonTargets4" Name="Microsoft.Common.Targets">
+          <Directory Id="ImportAfter4" Name="ImportAfter">
+            <Component Id="MsBuild40Targets" Guid="$(var.MSBuild4TargetGuid)">
+              <File Id="MsBuild40TargetsFile" Source="$(var.TargetsFile)"/>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="MSBuildExtensionsFolder">
       <Directory Id="MSBuildExtensions12Folder" Name="12.0">
         <Directory Id="CommonTargets12" Name="Microsoft.Common.Targets">
           <Directory Id="ImportAfter12" Name="ImportAfter">
@@ -36,11 +50,11 @@
 
   <Fragment>
     <DirectoryRef Id="MSBuildExtensionsFolder">
-      <Directory Id="MSBuildExtensions4Folder" Name="4.0">
-        <Directory Id="CommonTargets4" Name="Microsoft.Common.Targets">
-          <Directory Id="ImportAfter4" Name="ImportAfter">
-            <Component Id="MsBuild40Targets" Guid="$(var.MSBuild4TargetGuid)">
-              <File Id="MsBuild40TargetsFile" Source="$(var.TargetsFile)"/>
+      <Directory Id="MSBuildExtensions14Folder" Name="14.0">
+        <Directory Id="CommonTargets14" Name="Microsoft.Common.Targets">
+          <Directory Id="ImportAfter14" Name="ImportAfter">
+            <Component Id="MsBuild14Targets" Guid="$(var.MSBuild14TargetGuid)">
+              <File Id="MsBuild14TargetsFile" Source="$(var.TargetsFile)"/>
             </Component>
           </Directory>
         </Directory>
