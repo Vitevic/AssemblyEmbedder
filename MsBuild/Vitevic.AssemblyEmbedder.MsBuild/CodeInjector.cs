@@ -57,7 +57,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            return ctor;
        }
 
-       private MethodDefinition DefineOnAssemblyResolveMethod()
+       private MethodDefinition DefineOnAssemblyResolveMethod(Type fieldType, FieldDefinition field)
        {
            //static System.Reflection.Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
            //{
@@ -100,7 +100,18 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            il.Emit(OpCodes.Ldstr, ".dll");
            il.Emit(OpCodes.Call, ImportMethod<String>("Concat", typeof(String), typeof(String), typeof(String)));
            il.Emit(OpCodes.Stloc_0);
-           il.Emit(OpCodes.Call, ImportMethod<System.Reflection.Assembly>("GetExecutingAssembly"));
+           il.Emit(OpCodes.Ldsfld, field);
+           il.Emit(OpCodes.Ldloc_0);
+           il.Emit(OpCodes.Callvirt, ImportMethod(fieldType, "ContainsKey"));
+           var il_0039_getExecutingAssembly = il.Create(OpCodes.Call, ImportMethod<System.Reflection.Assembly>("GetExecutingAssembly"));
+           il.Emit(OpCodes.Brfalse_S, il_0039_getExecutingAssembly);
+
+           il.Emit(OpCodes.Ldsfld, field);
+           il.Emit(OpCodes.Ldloc_0);
+           il.Emit(OpCodes.Callvirt, ImportMethod(fieldType, "get_Item"));
+           il.Emit(OpCodes.Ret);
+
+           il.Append(il_0039_getExecutingAssembly);
            il.Emit(OpCodes.Ldloc_0);
            il.Emit(OpCodes.Callvirt, ImportMethod<System.Reflection.Assembly>("GetManifestResourceStream", typeof(string)));
            il.Emit(OpCodes.Stloc_1);
@@ -111,7 +122,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            il.Emit(OpCodes.Ldloc_1);
            il.Emit(OpCodes.Ldnull);
            il.Emit(OpCodes.Ceq);
-           il.Emit(OpCodes.Stloc_S,hiddenBool);
+           il.Emit(OpCodes.Stloc_S, hiddenBool);
            il.Emit(OpCodes.Ldloc_S, hiddenBool);
 
            var streamNullInTry = il.Create(OpCodes.Nop);
@@ -172,13 +183,17 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            };
 
            method.Body.ExceptionHandlers.Add(handler);
-           
+
            return method;
        }
     
        private TypeReference ImportType<T>()
        {
            return assembly.MainModule.Import(typeof(T));
+       }
+       private MethodReference ImportMethod(Type type, string methodName)
+       {
+           return assembly.MainModule.Import(type.GetMethod(methodName));
        }
        private MethodReference ImportMethod<T>(string methodName)
        {
@@ -198,7 +213,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            var fieldType = typeof(System.Collections.Generic.Dictionary<string, System.Reflection.Assembly>);
            var field = new FieldDefinition("assemblies", FieldAttributes.Private | FieldAttributes.Static, assembly.MainModule.Import(fieldType) );
 
-           var assemblyResolve = DefineOnAssemblyResolveMethod();
+           var assemblyResolve = DefineOnAssemblyResolveMethod(fieldType, field);
            var ctor = DefineModuleCtor(fieldType, field, assemblyResolve);
     
            var moduleType = assembly.MainModule.Types.Single(x => x.Name == "<Module>");
