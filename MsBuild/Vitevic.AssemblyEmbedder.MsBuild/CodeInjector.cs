@@ -36,7 +36,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            this.assembly = assembly;
        }
     
-       private MethodDefinition DefineModuleCtor(MethodDefinition assemblyResolveMethod)
+       private MethodDefinition DefineModuleCtor(Type fieldType, FieldDefinition field, MethodDefinition assemblyResolveMethod)
        {
            var ctor = new MethodDefinition(".cctor",
                        MethodAttributes.Static |
@@ -45,6 +45,8 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                        assembly.MainModule.Import(typeof(void)));
     
            var il = ctor.Body.GetILProcessor();
+           il.Emit(OpCodes.Newobj, assembly.MainModule.Import(fieldType.GetConstructor(new Type[0])));
+           il.Emit(OpCodes.Stsfld, field);
            il.Emit(OpCodes.Call, ImportMethod<AppDomain>("get_CurrentDomain"));
            il.Emit(OpCodes.Ldnull);
            il.Emit(OpCodes.Ldftn, assemblyResolveMethod);
@@ -193,12 +195,16 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
     
        internal void Inject()
        {
+           var fieldType = typeof(System.Collections.Generic.Dictionary<string, System.Reflection.Assembly>);
+           var field = new FieldDefinition("assemblies", FieldAttributes.Private | FieldAttributes.Static, assembly.MainModule.Import(fieldType) );
+
            var assemblyResolve = DefineOnAssemblyResolveMethod();
-           var ctor = DefineModuleCtor(assemblyResolve);
+           var ctor = DefineModuleCtor(fieldType, field, assemblyResolve);
     
            var moduleType = assembly.MainModule.Types.Single(x => x.Name == "<Module>");
            moduleType.Methods.Add(assemblyResolve);
-           moduleType.Methods.Add(ctor);            
+           moduleType.Methods.Add(ctor);
+           moduleType.Fields.Add(field);
        }
     }
 }
