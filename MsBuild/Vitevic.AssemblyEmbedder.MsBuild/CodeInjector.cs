@@ -87,8 +87,8 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            method.Body.Variables.Add(new VariableDefinition(ImportType<Stream>())); // stream
            method.Body.Variables.Add(new VariableDefinition(ImportType<byte[]>())); // data
            method.Body.Variables.Add(new VariableDefinition(ImportType<System.Reflection.Assembly>())); // result
-           var hiddenBool = new VariableDefinition(ImportType<bool>());
-           method.Body.Variables.Add(hiddenBool); // hiddenBool
+           var hiddenAssembly = new VariableDefinition(ImportType<System.Reflection.Assembly>());
+           method.Body.Variables.Add(hiddenAssembly);
            method.Body.InitLocals = true;
 
            var il = method.Body.GetILProcessor();
@@ -116,19 +116,13 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            il.Emit(OpCodes.Callvirt, ImportMethod<System.Reflection.Assembly>("GetManifestResourceStream", typeof(string)));
            il.Emit(OpCodes.Stloc_1);
 
-           var startTry = il.Create(OpCodes.Nop);
+           //////////////////////////////////////////////// try
+           var startTry = il.Create(OpCodes.Ldloc_1);
+           var il_0085 = il.Create(OpCodes.Ldnull);
+           var il_0079 = il.Create(OpCodes.Leave_S, il_0085);
 
            il.Append(startTry);
-           il.Emit(OpCodes.Ldloc_1);
-           il.Emit(OpCodes.Ldnull);
-           il.Emit(OpCodes.Ceq);
-           il.Emit(OpCodes.Stloc_S, hiddenBool);
-           il.Emit(OpCodes.Ldloc_S, hiddenBool);
-
-           var streamNullInTry = il.Create(OpCodes.Nop);
-           il.Emit(OpCodes.Brtrue_S, streamNullInTry);
-
-           il.Emit(OpCodes.Nop);
+           il.Emit(OpCodes.Brfalse_S, il_0079);
            il.Emit(OpCodes.Ldloc_1);
            il.Emit(OpCodes.Callvirt, ImportMethod<Stream>("get_Length"));
            il.Emit(OpCodes.Conv_Ovf_I);
@@ -145,33 +139,30 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            il.Emit(OpCodes.Ldloc_2);
            il.Emit(OpCodes.Call, ImportMethod<System.Reflection.Assembly>("Load", typeof(byte[])));
            il.Emit(OpCodes.Stloc_3);
+           il.Emit(OpCodes.Ldsfld, field);
+           il.Emit(OpCodes.Ldloc_0);
+           il.Emit(OpCodes.Ldloc_3);
+           il.Emit(OpCodes.Callvirt, ImportMethod(fieldType, "set_Item"));
+           il.Emit(OpCodes.Ldloc_3);
+           il.Emit(OpCodes.Stloc_S, hiddenAssembly);
 
-           var beforeFinalRet = il.Create(OpCodes.Nop);
-           il.Emit(OpCodes.Leave_S, beforeFinalRet);
+           var il_0087 = il.Create(OpCodes.Ldloc_S, hiddenAssembly);
+           il.Emit(OpCodes.Leave_S, il_0087);
+           il.Append(il_0079);
 
-           il.Append(streamNullInTry);
-           il.Emit(OpCodes.Ldnull);
-           il.Emit(OpCodes.Stloc_3);
-           il.Emit(OpCodes.Leave_S, beforeFinalRet);
-
-           var endTry = il.Create(OpCodes.Nop);
+           // finally
+           var endTry = il.Create(OpCodes.Ldloc_1);
            il.Append(endTry);
+           var il_0084_endFinally = il.Create(OpCodes.Endfinally);
+           il.Emit(OpCodes.Brfalse_S, il_0084_endFinally);
 
-           // finally handler
-           il.Emit(OpCodes.Ldloc_1);
-           il.Emit(OpCodes.Ldnull);
-           il.Emit(OpCodes.Ceq);
-           il.Emit(OpCodes.Stloc_S, hiddenBool);
-           il.Emit(OpCodes.Ldloc_S, hiddenBool);
-           var endFinally = il.Create(OpCodes.Endfinally);
-           il.Emit(OpCodes.Brtrue_S, endFinally);
            il.Emit(OpCodes.Ldloc_1);
            il.Emit(OpCodes.Callvirt, ImportMethod<Stream>("Dispose"));
-           il.Append(endFinally);
+           il.Append(il_0084_endFinally);
 
-           // return result block
-           il.Append(beforeFinalRet);
-           il.Emit(OpCodes.Ldloc_3);
+           il.Append(il_0085);
+           il.Emit(OpCodes.Ret);
+           il.Append(il_0087);
            il.Emit(OpCodes.Ret);
 
            var handler = new ExceptionHandler(ExceptionHandlerType.Finally)
@@ -179,7 +170,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                TryStart = startTry,
                TryEnd = endTry,
                HandlerStart = endTry,
-               HandlerEnd = beforeFinalRet,
+               HandlerEnd = il_0085,
            };
 
            method.Body.ExceptionHandlers.Add(handler);
