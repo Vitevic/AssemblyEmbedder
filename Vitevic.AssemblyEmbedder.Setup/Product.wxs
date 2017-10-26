@@ -10,7 +10,7 @@
     <Property Id="PREVIOUSVERSIONSINSTALLED" Secure="yes" />
     <Upgrade Id="$(var.ProductUpgradeCode)">
       <UpgradeVersion
-         Minimum="1.0.0.0" Maximum="1.0.1.0"
+         Minimum="1.0.0.0" Maximum="1.0.2.0"
          Property="PREVIOUSVERSIONSINSTALLED"
          IncludeMinimum="yes" IncludeMaximum="no" />
     </Upgrade>
@@ -35,6 +35,10 @@
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild14Targets"/>
     </Feature>
+    <Feature Id="MSBuild15Feature" Title="MSBuild15" Level="1">
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild15Targets"/>
+    </Feature>
 
     <Feature Id="VS2010Feature" Title="Visual Studio 2010" Level="1">
       <ComponentRef Id="MsBuildTaskDll"/>
@@ -58,6 +62,12 @@
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild14Targets"/>
       <ComponentGroupRef Id="VS2015_AssemblyEmbedder"/>
+    </Feature>
+
+    <Feature Id="VS2017Feature" Title="Visual Studio 2017" AllowAdvertise="yes" Level="1">
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild15Targets"/>
+      <ComponentGroupRef Id="VS2017_AssemblyEmbedder"/>
     </Feature>
 
     <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>

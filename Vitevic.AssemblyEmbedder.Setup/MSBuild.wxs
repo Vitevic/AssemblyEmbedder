@@ -62,4 +62,18 @@
     </DirectoryRef>
   </Fragment>
 
+  <Fragment>
+    <DirectoryRef Id="MSBuildExtensionsFolder">
+      <Directory Id="MSBuildExtensions15Folder" Name="15.0">
+        <Directory Id="CommonTargets15" Name="Microsoft.Common.Targets">
+          <Directory Id="ImportAfter15" Name="ImportAfter">
+            <Component Id="MsBuild15Targets" Guid="$(var.MSBuild15TargetGuid)">
+              <File Id="MsBuild15TargetsFile" Source="$(var.TargetsFile)"/>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+
 </Wix>

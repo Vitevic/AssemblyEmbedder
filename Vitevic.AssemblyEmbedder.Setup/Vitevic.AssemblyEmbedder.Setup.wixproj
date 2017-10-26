@@ -22,6 +22,7 @@
     <VerboseOutput>False</VerboseOutput>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="VS2017.wxs" />
     <Compile Include="MSBuild.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="UI.wxs" />

@@ -8,6 +8,7 @@
     <PropertyRef Id="VS2012DEVENV"/>
     <PropertyRef Id="VS2013DEVENV"/>
     <PropertyRef Id="VS2015DEVENV"/>
+    <PropertyRef Id="VS2017DEVENV"/>
 
     <Property Id="VV_2010_INSTALLED" Secure="yes">
       <ComponentSearch Id="VS2010Search" Guid="$(var.Vs2010MainGuid)" />
@@ -21,7 +22,10 @@
     <Property Id="VV_2015_INSTALLED" Secure="yes">
       <ComponentSearch Id="VS2015Search" Guid="$(var.Vs2015MainGuid)" />
     </Property>
-    
+    <Property Id="VV_2017_INSTALLED" Secure="yes">
+      <ComponentSearch Id="VS2017Search" Guid="$(var.Vs2017MainGuid)" />
+    </Property>
+
     <Property Id="VV_MSBUILD4_INSTALLED" Secure="yes">
       <ComponentSearch Id="MSBuild4Search" Guid="$(var.MSBuild4TargetGuid)" />
     </Property>
@@ -31,25 +35,32 @@
     <Property Id="VV_MSBUILD14_INSTALLED" Secure="yes">
       <ComponentSearch Id="MSBuild14Search" Guid="$(var.MSBuild14TargetGuid)" />
     </Property>
+    <Property Id="VV_MSBUILD15_INSTALLED" Secure="yes">
+      <ComponentSearch Id="MSBuild15Search" Guid="$(var.MSBuild15TargetGuid)" />
+    </Property>
 
     <Property Id="VV_UPDATE_SETUP_2012" Secure="yes"/>
     <Property Id="VV_UPDATE_SETUP_2013" Secure="yes"/>
     <Property Id="VV_UPDATE_SETUP_2015" Secure="yes"/>
+    <Property Id="VV_UPDATE_SETUP_2017" Secure="yes"/>
 
     <SetProperty Id="VV_INSTALL_2010" After="AppSearch" Value="1">(VS2010DEVENV AND NOT Installed) OR (Installed AND VV_2010_INSTALLED)</SetProperty>
     <SetProperty Id="VV_INSTALL_2012" After="AppSearch" Value="1">(VS2012DEVENV AND NOT Installed) OR (Installed AND VV_2012_INSTALLED)</SetProperty>
     <SetProperty Id="VV_INSTALL_2013" After="AppSearch" Value="1">(VS2013DEVENV AND NOT Installed) OR (Installed AND VV_2013_INSTALLED)</SetProperty>
     <SetProperty Id="VV_INSTALL_2015" After="AppSearch" Value="1">(VS2015DEVENV AND NOT Installed) OR (Installed AND VV_2015_INSTALLED)</SetProperty>
+    <SetProperty Id="VV_INSTALL_2017" After="AppSearch" Value="1">(VS2017DEVENV AND NOT Installed) OR (Installed AND VV_2017_INSTALLED)</SetProperty>
     
     <SetProperty Id="VV_INSTALL_MSBUILD_4" After="AppSearch" Value="1">VV_INSTALL_2010 OR VV_MSBUILD4_INSTALLED</SetProperty>
     <SetProperty Id="VV_INSTALL_MSBUILD_12" After="AppSearch" Value="1">VV_INSTALL_2012 OR VV_INSTALL_2013 OR VV_MSBUILD12_INSTALLED</SetProperty>
-    <SetProperty Id="VV_INSTALL_MSBUILD_14" After="AppSearch" Value="1">VV_INSTALL_2015 OR VV_MSBUILD15_INSTALLED</SetProperty>
+    <SetProperty Id="VV_INSTALL_MSBUILD_14" After="AppSearch" Value="1">VV_INSTALL_2015 OR VV_MSBUILD14_INSTALLED</SetProperty>
+    <SetProperty Id="VV_INSTALL_MSBUILD_15" After="AppSearch" Value="1">VV_INSTALL_2017 OR VV_MSBUILD15_INSTALLED</SetProperty>
 
     <!-- http://blogs.msdn.com/b/dsvst/archive/2012/10/08/your-vs-package-may-not-load-after-porting-it-to-vs-2012.aspx -->
     <InstallExecuteSequence>
       <Custom Action="VS2012Setup" Before="InstallFinalize">(VV_UPDATE_SETUP_2012 = "1") OR (REMOVE AND VV_2012_INSTALLED)</Custom>
       <Custom Action="VS2013Setup" Before="InstallFinalize">(VV_UPDATE_SETUP_2013 = "1") OR (REMOVE AND VV_2013_INSTALLED)</Custom>
       <Custom Action="VS2015Setup" Before="InstallFinalize">(VV_UPDATE_SETUP_2015 = "1") OR (REMOVE AND VV_2015_INSTALLED)</Custom>
+      <Custom Action="VS2017Setup" Before="InstallFinalize">(VV_UPDATE_SETUP_2017 = "1") OR (REMOVE AND VV_2017_INSTALLED)</Custom>
     </InstallExecuteSequence>
 
     <UI Id="Vitevic_VS">
@@ -63,6 +74,7 @@
       <ProgressText Action="VS2012Setup" Template="[1]">Updating Visual Studio 2012 registration</ProgressText>
       <ProgressText Action="VS2013Setup" Template="[1]">Updating Visual Studio 2013 registration</ProgressText>
       <ProgressText Action="VS2015Setup" Template="[1]">Updating Visual Studio 2015 registration</ProgressText>
+      <ProgressText Action="VS2017Setup" Template="[1]">Updating Visual Studio 2017 registration</ProgressText>
 
       <!--<DialogRef Id="DiskCostDlg" />-->
       <DialogRef Id="ErrorDlg" />
@@ -94,6 +106,10 @@
           <Condition Action="disable">NOT VS2015DEVENV</Condition>
           <Publish  Property="VV_INSTALL_MSBUILD_14" Value="[VV_INSTALL_2015]">1</Publish>
         </Control>
+        <Control Id="VS2017CheckBox" Type="CheckBox" X="20" Y="180" Width="140" Height="17" Property="VV_INSTALL_2017" CheckBoxValue="1" Text="Visual Studio 2017">
+          <Condition Action="disable">NOT VS2017DEVENV</Condition>
+          <Publish  Property="VV_INSTALL_MSBUILD_15" Value="[VV_INSTALL_2017]">1</Publish>
+        </Control>
 
         <Control Id="MSBuild4CheckBox" Type="CheckBox" X="160" Y="60" Width="140" Height="17" Property="VV_INSTALL_MSBUILD_4" CheckBoxValue="1" Text="MSBuild 4.0 Targets">
           <Condition Action="disable">VV_INSTALL_2010</Condition>
@@ -107,6 +123,10 @@
           <Condition Action="disable">VV_INSTALL_2015</Condition>
           <Condition Action="enable">NOT VV_INSTALL_2015</Condition>
         </Control>
+        <Control Id="MSBuild15CheckBox" Type="CheckBox" X="160" Y="180" Width="140" Height="17" Property="VV_INSTALL_MSBUILD_15" CheckBoxValue="1" Text="MSBuild 15.0 Targets">
+          <Condition Action="disable">VV_INSTALL_2017</Condition>
+          <Condition Action="enable">NOT VV_INSTALL_2017</Condition>
+        </Control>
 
         <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
           <Publish Event="Remove" Value="ALL" Order="1">1</Publish>
@@ -114,16 +134,19 @@
           <Publish Event="AddLocal" Value="VS2012Feature" Order="3">VV_INSTALL_2012</Publish>
           <Publish Event="AddLocal" Value="VS2013Feature" Order="4">VV_INSTALL_2013</Publish>
           <Publish Event="AddLocal" Value="VS2015Feature" Order="5">VV_INSTALL_2015</Publish>
+          <Publish Event="AddLocal" Value="VS2017Feature" Order="5">VV_INSTALL_2017</Publish>
           <Publish Event="NewDialog" Value="VerifyReadyDlg" Order="6">1</Publish>
           <Publish Property="VV_UPDATE_SETUP_2012" Value="1" Order="7">VV_INSTALL_2012</Publish>
           <Publish Property="VV_UPDATE_SETUP_2013" Value="1" Order="8">VV_INSTALL_2013</Publish>
-          <Publish Property="VV_UPDATE_SETUP_2015" Value="1" Order="9">VV_INSTALL_2013</Publish>
+          <Publish Property="VV_UPDATE_SETUP_2015" Value="1" Order="9">VV_INSTALL_2015</Publish>
+          <Publish Property="VV_UPDATE_SETUP_2017" Value="1" Order="9">VV_INSTALL_2017</Publish>
           <Publish Event="AddLocal" Value="MSBuild4Feature" Order="10">VV_INSTALL_MSBUILD_4</Publish>
           <Publish Event="AddLocal" Value="MSBuild12Feature" Order="11">VV_INSTALL_MSBUILD_12</Publish>
           <Publish Event="AddLocal" Value="MSBuild14Feature" Order="12">VV_INSTALL_MSBUILD_14</Publish>
+          <Publish Event="AddLocal" Value="MSBuild15Feature" Order="12">VV_INSTALL_MSBUILD_15</Publish>
 
-          <Condition Action="disable"><![CDATA[VV_INSTALL_2010 <> "1" AND VV_INSTALL_2012 <> "1" AND VV_INSTALL_2013 <> "1" AND VV_INSTALL_2015 <> "1" AND VV_INSTALL_MSBUILD_14 <> "1" AND VV_INSTALL_MSBUILD_12 <> "1" AND VV_INSTALL_MSBUILD_4 <> "1"]]></Condition>
-          <Condition Action="enable">(VV_INSTALL_2010 = "1") OR (VV_INSTALL_2012 = "1") OR (VV_INSTALL_2013 = "1") OR (VV_INSTALL_2015 = "1") OR (VV_INSTALL_MSBUILD_4 = "1") OR (VV_INSTALL_MSBUILD_12 = "1") OR (VV_INSTALL_MSBUILD_14 = "1")</Condition>
+          <Condition Action="disable"><![CDATA[VV_INSTALL_2010<>"1" AND VV_INSTALL_2012<>"1" AND VV_INSTALL_2013<>"1" AND VV_INSTALL_2015<>"1" AND VV_INSTALL_2017<>"1" AND VV_INSTALL_MSBUILD_14<>"1" AND VV_INSTALL_MSBUILD_12<>"1" AND VV_INSTALL_MSBUILD_4<>"1" AND VV_INSTALL_MSBUILD_15<>"1"]]></Condition>
+          <Condition Action="enable">(VV_INSTALL_2010="1")OR(VV_INSTALL_2012="1")OR(VV_INSTALL_2013="1")OR(VV_INSTALL_2015="1")OR(VV_INSTALL_2017="1")OR(VV_INSTALL_MSBUILD_4="1")OR(VV_INSTALL_MSBUILD_12="1")OR(VV_INSTALL_MSBUILD_14="1")OR(VV_INSTALL_MSBUILD_15="1")</Condition>
         </Control>
         
         <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)">
