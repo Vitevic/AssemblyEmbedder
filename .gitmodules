@@ -1,0 +1,6 @@
+[submodule "Vitevic.Foundation"]
+	path = Vitevic.Foundation
+	url = ./Vitevic.Foundation
+[submodule "Vitevic.Vsx"]
+	path = Vitevic.Vsx
+	url = ./Vitevic.Vsx
