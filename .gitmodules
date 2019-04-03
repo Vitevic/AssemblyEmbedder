@@ -1,6 +1,6 @@
 [submodule "Vitevic.Foundation"]
 	path = Vitevic.Foundation
-	url = ./Vitevic.Foundation
+	url = git@git.local:Vitevic/Vitevic.Foundation.git
 [submodule "Vitevic.Vsx"]
 	path = Vitevic.Vsx
-	url = ./Vitevic.Vsx
+	url = git@git.local:Vitevic/Vitevic.Vsx.git

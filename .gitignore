@@ -9,3 +9,4 @@ syntax: glob
 *.opensdf
 *.exe
 packages/*
+**/obj/**
