@@ -161,6 +161,11 @@
       <Name>Vitevic.Vsx</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Madskristensen.VisualStudio.SDK">
+      <Version>14.3.81-pre</Version>
+    </PackageReference>
+  </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
