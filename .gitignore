@@ -1,9 +1,9 @@
 syntax: glob
-*/obj/*
-*/bin/*
-*/Debug/*
-*/Release/*
-*/ipch/*
+**/bin/**
+**/Debug/**
+**/Release/**
+**/ipch/**
+**/.vs/**
 *.suo
 *.sdf
 *.opensdf

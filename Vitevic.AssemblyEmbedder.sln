@@ -1,12 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitevic.AssemblyEmbedder", "Vitevic.AssemblyEmbedder\Vitevic.AssemblyEmbedder.csproj", "{3C4D92E6-50D5-4912-BE0B-7FBD91B8BBE7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitevic.Foundation", "Vitevic.Foundation\Vitevic.Foundation.csproj", "{E2734411-C68E-4AB2-B6A3-24F7FF9B3FEB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitevic.Vsx", "Vitevic.Vsx\Vitevic.Vsx.csproj", "{6A097B7C-7386-4DB4-9845-1830CFFE1085}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MsBuild", "MsBuild", "{1EDF017C-921D-450A-91E7-3CB3CC97450B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microsoft.Common.targets", "Microsoft.Common.targets", "{170B5B87-4CF3-4427-A57A-097895602D86}"
@@ -15,6 +11,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ImportAfter", "ImportAfter"
 	ProjectSection(SolutionItems) = preProject
 		MsBuild\Microsoft.Common.targets\ImportAfter\Vitevic.AssemblyEmbedder.targets = MsBuild\Microsoft.Common.targets\ImportAfter\Vitevic.AssemblyEmbedder.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitevic.AssemblyEmbedder", "Vitevic.AssemblyEmbedder\Vitevic.AssemblyEmbedder.csproj", "{3C4D92E6-50D5-4912-BE0B-7FBD91B8BBE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitevic.Foundation", "Vitevic.Foundation\Vitevic.Foundation.csproj", "{E2734411-C68E-4AB2-B6A3-24F7FF9B3FEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitevic.Vsx", "Vitevic.Vsx\Vitevic.Vsx.csproj", "{6A097B7C-7386-4DB4-9845-1830CFFE1085}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitevic.AssemblyEmbedder.MsBuild", "MsBuild\Vitevic.AssemblyEmbedder.MsBuild\Vitevic.AssemblyEmbedder.MsBuild.csproj", "{B519EB62-68E5-468F-BC4D-C52B824440CF}"
 EndProject
@@ -107,7 +109,10 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{170B5B87-4CF3-4427-A57A-097895602D86} = {1EDF017C-921D-450A-91E7-3CB3CC97450B}
-		{B519EB62-68E5-468F-BC4D-C52B824440CF} = {1EDF017C-921D-450A-91E7-3CB3CC97450B}
 		{A9239285-B26E-4DB7-9C16-4FC029E96153} = {170B5B87-4CF3-4427-A57A-097895602D86}
+		{B519EB62-68E5-468F-BC4D-C52B824440CF} = {1EDF017C-921D-450A-91E7-3CB3CC97450B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64B54583-CFFA-4876-A62B-021968022FE1}
 	EndGlobalSection
 EndGlobal

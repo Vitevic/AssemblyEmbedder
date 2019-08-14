@@ -3,7 +3,7 @@
   <Identifier Id="Vitevic.Assembly.Embedder.1.0.3.bcb73f7d-0dd7-4683-9f54-5ac49c328125">
     <Name>Vitevic Assembly Embedder</Name>
     <Author>Vitevic Software</Author>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Description xml:space="preserve">Merge referenced assemblies as embedded resources directly from Visual Studio.</Description>
     <Locale>1033</Locale>
     <License>VitevicFreewareLicense.rtf</License>
@@ -32,6 +32,10 @@
         <Edition>Community</Edition>
       </VisualStudio>
       <VisualStudio Version="15.0">
+        <Edition>Enterprise</Edition>
+        <Edition>Community</Edition>
+      </VisualStudio>
+      <VisualStudio Version="16.0">
         <Edition>Enterprise</Edition>
         <Edition>Community</Edition>
       </VisualStudio>

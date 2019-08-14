@@ -6,7 +6,8 @@
 <!--First VersionId: <?define ProductId="E6C68C5B-D082-4C86-99C4-58A59CFCE3DC" ?>-->
 <!--1.0.1 VersionId: <?define ProductId="07638796-12A1-4FC2-8EE1-C3C3050C0F80" ?>-->
 <!--1.0.2 VersionId: <?define ProductId="D1A7BF76-4D90-49F7-90E0-64BA2689573F" ?>-->
-<?define ProductId="EEA33FCC-91A9-4A92-9615-E79F0047CE64" ?>
+<!--1.0.3 VersionId: <?define ProductId="EEA33FCC-91A9-4A92-9615-E79F0047CE64" ?>-->
+<?define ProductId="3D92E2EC-C08A-482E-92E3-4F73ABDB1070" ?>
 <?define ProductUpgradeCode="cfd68ef0-a7a7-4155-8b16-9e61604cfe80" ?>
 
 <?define Vs2010MainGuid="DB7DD96C-ABA8-4B56-9E2E-82E287B7B75B"?>
@@ -14,11 +15,13 @@
 <?define Vs2013MainGuid="21A194A2-7563-43F1-8013-E4D59CD21985"?>
 <?define Vs2015MainGuid="1D59828C-27C0-4792-93EF-5262F725FBE4"?>
 <?define Vs2017MainGuid="9830A4F7-FD34-4BE1-9BAC-FF38B13E3CD7"?>
+<?define Vs2019MainGuid="45C7D5D2-9A3F-4EB7-BA56-06A315D97793"?>
 
 <?define MSBuild4TargetGuid="C636E76A-0758-4DBC-89DD-351DE4009674"?>
 <?define MSBuild12TargetGuid="1F92A2C3-B7B5-4CD0-8BCB-EBE3EB672F69"?>
 <?define MSBuild14TargetGuid="A94657B0-20DC-4327-AC50-1604591A2C8D"?>
 <?define MSBuild15TargetGuid="32FAD187-30A8-4E0E-918C-EE13B76B81DB"?>
+
 <Include>
 	<!-- TODO: Put your code here. -->
 </Include>
