@@ -12,21 +12,6 @@ using Mono.Cecil.Cil;
 
 namespace Vitevic.AssemblyEmbedder.MsBuild
 {
-    //private static Assembly OnResolveAssembly(object sender, ResolveEventArgs args) {
-    //       var executingAssembly = Assembly.GetExecutingAssembly();
-    //       var assemblyName = new AssemblyName(args.Name);
-    //       var path = assemblyName.Name + ".dll";
-    //       if (assemblyName.CultureInfo.Equals(CultureInfo.InvariantCulture) == false) {
-    //           path = String.Format(@"{0}\Vitevic.EmbeddedAssembly.{1}", assemblyName.CultureInfo, path);
-    //       }
-    //       using (var stream = executingAssembly.GetManifestResourceStream(path)) {
-    //           if (stream == null)
-    //               return null;
-    //           var assemblyRawBytes = new byte[stream.Length];
-    //           stream.Read(assemblyRawBytes, 0, assemblyRawBytes.Length);
-    //           return Assembly.Load(assemblyRawBytes);
-    //       }
-    //   }
     class CodeInjector
     {
        AssemblyDefinition assembly;
@@ -59,21 +44,26 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
 
        private MethodDefinition DefineOnAssemblyResolveMethod(Type fieldType, FieldDefinition field)
        {
-           //static System.Reflection.Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
-           //{
-           //    var assemblyName = "Vitevic.Embedded." + new System.Reflection.AssemblyName(args.Name).Name + ".dll";
-           //    using (var stream = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream(assemblyName))
-           //    {
-           //        if (stream != null)
-           //        {
-           //            var data = new Byte[stream.Length];
-           //            stream.Read(data, 0, data.Length);
-           //            return System.Reflection.Assembly.Load(data);
-           //        }
-           //    }
-
-           //    return null;
-           //}
+//    private static Assembly OnResolveAssembly(object A_0, ResolveEventArgs A_1)
+//	{
+//		string text = "Vitevic.EmbeddedAssembly." + new AssemblyName(A_1.Name).Name + ".dll";
+//		if (<Module>.assemblies.ContainsKey(text))
+//		{
+//			return <Module>.assemblies[text];
+//		}
+//		using (Stream manifestResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(text))
+//		{
+//			if (manifestResourceStream != null)
+//			{
+//				byte[] array = new byte[manifestResourceStream.Length];
+//				manifestResourceStream.Read(array, 0, array.Length);
+//				Assembly assembly = Assembly.Load(array);
+//				<Module>.assemblies[text] = assembly;
+//				return assembly;
+//			}
+//		}
+//		return null;
+//	}
 
            var method = new MethodDefinition("OnResolveAssembly",
            MethodAttributes.Private |
