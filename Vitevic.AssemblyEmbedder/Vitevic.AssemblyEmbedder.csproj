@@ -45,7 +45,6 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualStudio.TextManager.Interop" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -59,15 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="Microsoft.VisualStudio.CommandBars">
-      <Guid>{1CBA492E-7263-47BB-87FE-639000619B15}</Guid>
-      <VersionMajor>8</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="stdole">
       <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>2</VersionMajor>
@@ -79,6 +69,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\MsBuild\Vitevic.AssemblyEmbedder.MsBuild\Attributes.cs">
+      <Link>Attributes.cs</Link>
+    </Compile>
     <Compile Include="Guids.cs" />
     <Compile Include="AssemblyReferenceExtender.cs" />
     <Compile Include="ProjectReferenceExtender.cs" />
@@ -138,10 +131,6 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MsBuild\Vitevic.AssemblyEmbedder.MsBuild\Vitevic.AssemblyEmbedder.MsBuild.csproj">
-      <Project>{b519eb62-68e5-468f-bc4d-c52b824440cf}</Project>
-      <Name>Vitevic.AssemblyEmbedder.MsBuild</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Vitevic.Foundation\Vitevic.Foundation.csproj">
       <Project>{E2734411-C68E-4AB2-B6A3-24F7FF9B3FEB}</Project>
       <Name>Vitevic.Foundation</Name>
@@ -150,11 +139,6 @@
       <Project>{6A097B7C-7386-4DB4-9845-1830CFFE1085}</Project>
       <Name>Vitevic.Vsx</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Madskristensen.VisualStudio.SDK">
-      <Version>14.3.81-pre</Version>
-    </PackageReference>
   </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>

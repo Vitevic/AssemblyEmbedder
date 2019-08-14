@@ -86,9 +86,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <PackageReference Include="Madskristensen.VisualStudio.SDK">
-      <Version>14.3.81-pre</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\CommandFlags.cs" />
