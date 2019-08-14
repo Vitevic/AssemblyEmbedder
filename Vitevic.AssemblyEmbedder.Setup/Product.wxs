@@ -76,7 +76,7 @@
     <Icon Id="MainIcon" SourceFile="$(var.Vitevic.AssemblyEmbedder.TargetDir)logo_small2.ico"/>    
     <Property Id="ARPPRODUCTICON" Value="MainIcon" />
     <!--<WixVariable Id="WixUIDialogBmp" Value="..\..\..\dlgbmp.bmp" />-->
-    <WixVariable Id="WixUIBannerBmp" Value="..\..\..\bannrbmp.bmp" />
+    <WixVariable Id="WixUIBannerBmp" Value="bannrbmp.bmp" />
 
   </Product>
 </Wix>
