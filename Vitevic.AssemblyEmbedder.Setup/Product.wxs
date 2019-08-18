@@ -39,6 +39,10 @@
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild15Targets"/>
     </Feature>
+    <Feature Id="MSBuild16Feature" Title="MSBuild16" Level="1">
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild16Targets"/>
+    </Feature>
 
     <Feature Id="VS2010Feature" Title="Visual Studio 2010" Level="1">
       <ComponentRef Id="MsBuildTaskDll"/>
@@ -68,6 +72,12 @@
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild15Targets"/>
       <ComponentGroupRef Id="VS2017_AssemblyEmbedder"/>
+    </Feature>
+      
+    <Feature Id="VS2019Feature" Title="Visual Studio 2019" AllowAdvertise="yes" Level="1">
+      <ComponentRef Id="MsBuildTaskDll"/>
+      <ComponentRef Id="MsBuild16Targets"/>
+      <ComponentGroupRef Id="VS2019_AssemblyEmbedder"/>
     </Feature>
 
     <WixVariable Id="WixUILicenseRtf" Overridable="yes" Value="License.rtf"/>

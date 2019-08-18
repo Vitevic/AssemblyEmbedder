@@ -21,6 +21,7 @@
 <?define MSBuild12TargetGuid="1F92A2C3-B7B5-4CD0-8BCB-EBE3EB672F69"?>
 <?define MSBuild14TargetGuid="A94657B0-20DC-4327-AC50-1604591A2C8D"?>
 <?define MSBuild15TargetGuid="32FAD187-30A8-4E0E-918C-EE13B76B81DB"?>
+<?define MSBuild16TargetGuid="BA5D7F5A-5D91-4704-91A0-D78F64FFBDE2"?>
 
 <Include>
 	<!-- TODO: Put your code here. -->

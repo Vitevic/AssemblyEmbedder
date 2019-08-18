@@ -64,7 +64,7 @@
 
   <Fragment>
     <DirectoryRef Id="MSBuildExtensionsFolder">
-      <Directory Id="MSBuildExtensions15Folder" Name="15.0">
+      <Directory Id="MSBuildExtensions15Folder" Name="Current">
         <Directory Id="CommonTargets15" Name="Microsoft.Common.Targets">
           <Directory Id="ImportAfter15" Name="ImportAfter">
             <Component Id="MsBuild15Targets" Guid="$(var.MSBuild15TargetGuid)">
@@ -75,5 +75,24 @@
       </Directory>
     </DirectoryRef>
   </Fragment>
-
+    
+  <Fragment>
+    <PropertyRef Id="VS2019_ROOT_FOLDER" />
+      
+    <DirectoryRef Id="ProgramFilesFolder">
+      <Directory Id="VS2019_ROOT_FOLDER" Name="VS2019_ROOT_FOLDER">
+        <Directory Id="MSBuild16Folder" Name="MSBuild">
+          <Directory Id="MSBuildExtensions16Folder" Name="Current">
+            <Directory Id="CommonTargets16" Name="Microsoft.Common.Targets">
+              <Directory Id="ImportAfter16" Name="ImportAfter">
+              <Component Id="MsBuild16Targets" Guid="$(var.MSBuild16TargetGuid)">
+                  <File Id="MsBuild16TargetsFile" Source="$(var.TargetsFile)"/>
+              </Component>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
 </Wix>
