@@ -8,8 +8,8 @@
     </CompileDependsOn>
   </PropertyGroup>
 
-  <UsingTask TaskName="EmbedAssemblies" AssemblyName="Vitevic.AssemblyEmbedder.MsBuild, Version=1.0.3.0, Culture=neutral, PublicKeyToken=10b06993d593deb3"/>
-  <UsingTask TaskName="FindSnTool" AssemblyName="Vitevic.AssemblyEmbedder.MsBuild, Version=1.0.3.0, Culture=neutral, PublicKeyToken=10b06993d593deb3"/>
+  <UsingTask TaskName="EmbedAssemblies" AssemblyName="Vitevic.AssemblyEmbedder.MsBuild, Version=1.0.4.0, Culture=neutral, PublicKeyToken=10b06993d593deb3"/>
+  <UsingTask TaskName="FindSnTool" AssemblyName="Vitevic.AssemblyEmbedder.MsBuild, Version=1.0.4.0, Culture=neutral, PublicKeyToken=10b06993d593deb3"/>
 
   <Target Name="EmbedReferencedAssemblies">
 
