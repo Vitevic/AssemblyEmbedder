@@ -12,7 +12,7 @@ variables:
   buildConfiguration: 'Debug'
 
 steps:
-- powershell: ./Install-Wix.ps1
+- powershell: ./Scripts/Install-Wix.ps1
 
 - task: NuGetToolInstaller@1
 
