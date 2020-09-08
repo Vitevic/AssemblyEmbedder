@@ -21,9 +21,6 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
-    <EazfuscatorIntegration>MSBuild</EazfuscatorIntegration>
-    <EazfuscatorActiveConfiguration>Release</EazfuscatorActiveConfiguration>
-    <EazfuscatorCompatibilityVersion>2019.2</EazfuscatorCompatibilityVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -191,6 +188,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>REM Eazfuscator.NET is integrated with this project at MSBuild level: https://www.gapotchenko.com/eazfuscator.net/kb/100036</PostBuildEvent>
+    <PostBuildEvent></PostBuildEvent>
   </PropertyGroup>
 </Project>
