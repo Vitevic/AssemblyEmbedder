@@ -26,4 +26,4 @@ jobs:
               msbuildVersion: ${{ msbuildVersion }}
               solution: '$(solution)'
               platform: 'Mixed Platforms'
-              configuration: '${{ config }}
+              configuration: '${{ config }}'
