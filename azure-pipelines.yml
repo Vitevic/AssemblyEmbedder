@@ -3,25 +3,9 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
-pool:
-  vmImage: 'windows-2019'
-
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Mixed Platforms'
-  buildConfiguration: 'Debug'
-
-steps:
-- powershell: ./Scripts/Install-Wix.ps1
-
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+jobs:
+  - template: azure-pipelines-template.yml
+    parameters:
+      images: [ 'vs2017-win2016', 'windows-2019' ]
+      configs: [ 'Debug', 'Release' ]
+      msbuildVersions: [ '16.0', '15.0' ]

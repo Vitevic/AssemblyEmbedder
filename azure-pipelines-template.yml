@@ -1,0 +1,29 @@
+jobs:
+  - ${{ each image in parameters.images }}:
+    - ${{ each msbuildVersion in parameters.msbuildVersions }}:
+      - ${{ each config in parameters.configs }}:
+        - job:
+          displayName: ${{ format('{0}-{1}-{2}', image, msbuildVersion, config) }}
+
+          pool:
+            vmImage: ${{ image }}
+
+          variables:
+            solution: '**/*.sln'
+            buildPlatform: 'Mixed Platforms'
+
+          steps:
+          - powershell: ./Scripts/Install-Wix.ps1
+
+          - task: NuGetToolInstaller@1
+
+          - task: NuGetCommand@2
+            inputs:
+              restoreSolution: '$(solution)'
+
+          - task: VSBuild@1
+            inputs:
+              msbuildVersion: ${{ msbuildVersion }}
+              solution: '$(solution)'
+              platform: 'Mixed Platforms'
+              configuration: '${{ config }}
