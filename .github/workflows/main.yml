@@ -1,0 +1,20 @@
+jobs:
+  initial:
+    runs-on: windows-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Setup NuGet.exe for use with actions
+        # You may pin to the exact commit or the version.
+        # uses: NuGet/setup-nuget@04b0c2b8d1b97922f67eca497d7cf0bf17b8ffe1
+        uses: NuGet/setup-nuget@v4.5.3
+
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1
+
+      - script: ./Scripts/Install-Wix.ps1
+
+      - script: nuget.exe restore Vitevic.AssemblyEmbedder.sln
+
+      - script: msbuild.exe Vitevic.AssemblyEmbedder.sln
