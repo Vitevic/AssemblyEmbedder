@@ -1,3 +1,7 @@
+name: AssemblyEmbedder
+
+on: [push]
+
 jobs:
   initial:
     runs-on: windows-latest
