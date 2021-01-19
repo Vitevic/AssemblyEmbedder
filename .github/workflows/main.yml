@@ -4,7 +4,13 @@ on: [push, pull_request]
 
 jobs:
   initial:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.image }}
+
+    strategy:
+      matrix:
+        image: [windows-2016, windows-2019]
+        config: [Debug, Release]
+    
     steps:
       - uses: actions/checkout@v2
 
@@ -25,5 +31,5 @@ jobs:
         shell: powershell
 
       - name: Build Solution
-        run: msbuild.exe Vitevic.AssemblyEmbedder.sln
+        run: msbuild.exe /p:Configuration=${{ matrix.config }} Vitevic.AssemblyEmbedder.sln
         shell: powershell
