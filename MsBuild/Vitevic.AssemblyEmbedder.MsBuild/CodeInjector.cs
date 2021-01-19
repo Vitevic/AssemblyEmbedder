@@ -6,9 +6,9 @@ using Mono.Cecil.Cil;
 
 namespace Vitevic.AssemblyEmbedder.MsBuild
 {
-    class CodeInjector
+    internal class CodeInjector
     {
-       AssemblyDefinition assembly;
+        private AssemblyDefinition assembly;
     
        public CodeInjector(AssemblyDefinition assembly)
        {
@@ -23,6 +23,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                        MethodAttributes.RTSpecialName, this.assembly.MainModule.Import(typeof(void)));
     
            var il = ctor.Body.GetILProcessor();
+
            il.Emit(OpCodes.Newobj, this.assembly.MainModule.Import(fieldType.GetConstructor(new Type[0])));
            il.Emit(OpCodes.Stsfld, field);
            il.Emit(OpCodes.Call, ImportMethod<AppDomain>("get_CurrentDomain"));
@@ -81,7 +82,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            il.Emit(OpCodes.Newobj, ImportCtor<System.Reflection.AssemblyName>(typeof(string)));
            il.Emit(OpCodes.Call, ImportMethod<System.Reflection.AssemblyName>("get_Name"));
            il.Emit(OpCodes.Ldstr, ".dll");
-           il.Emit(OpCodes.Call, ImportMethod<String>("Concat", typeof(String), typeof(String), typeof(String)));
+           il.Emit(OpCodes.Call, ImportMethod<string>("Concat", typeof(string), typeof(string), typeof(string)));
            il.Emit(OpCodes.Stloc_0);
            il.Emit(OpCodes.Ldsfld, field);
            il.Emit(OpCodes.Ldloc_0);

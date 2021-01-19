@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Xml.Linq;
 
@@ -20,7 +20,7 @@ namespace Vitevic.Foundation.Extensions
             return element;
         }
 
-        public static String OptionalElementStr(this XElement root, XName name)
+        public static string OptionalElementStr(this XElement root, XName name)
         {
             Debug.Assert(root != null);
 

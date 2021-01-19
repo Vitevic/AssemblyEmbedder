@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 
 namespace Vitevic.Vsx.Command
 {
     public interface IVsxCommandMetadata
     {
         CommandFlags Flags { get; }
-        String CommandGroupId { get; }
+        string CommandGroupId { get; }
         uint CommandId { get; }
-        String PackageId { get; }
+        string PackageId { get; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Vitevic.Foundation.Extensions
 {
@@ -7,7 +7,7 @@ namespace Vitevic.Foundation.Extensions
         /// <returns>True is the two strings are equals.</returns>
         public static bool IsEqualNoCase(this string a, string b)
         {
-            return 0 == String.Compare(a, b, StringComparison.OrdinalIgnoreCase);
+            return 0 == string.Compare(a, b, StringComparison.OrdinalIgnoreCase);
         }
 
         public static bool ContainsNoCase(this string a, string b)
@@ -15,9 +15,9 @@ namespace Vitevic.Foundation.Extensions
             return a.IndexOf(b, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
-        public static String Arguments(this string format, params object[] args)
+        public static string Arguments(this string format, params object[] args)
         {
-            return String.Format(format, args);
+            return string.Format(format, args);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.Composition;
 
 namespace Vitevic.Vsx.Command
@@ -9,10 +9,10 @@ namespace Vitevic.Vsx.Command
     {
         public uint CommandId { get; private set; }
         public CommandFlags Flags { get; set; }
-        public String CommandGroupId { get; set; }
-        public String PackageId { get; set; }
+        public string CommandGroupId { get; set; }
+        public string PackageId { get; set; }
 
-        public VsxCommandAttribute(String commandGroupId, uint commandId)
+        public VsxCommandAttribute(string commandGroupId, uint commandId)
             : base(typeof(IVsxCommand))
         {
             CommandGroupId = commandGroupId;

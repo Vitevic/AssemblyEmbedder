@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Vitevic.Vsx.Service
 {
@@ -6,6 +6,6 @@ namespace Vitevic.Vsx.Service
     {
         Type ServiceType { get; }
         ServiceFlags Flags { get; }
-        String PackageId { get; }
+        string PackageId { get; }
     }
 }

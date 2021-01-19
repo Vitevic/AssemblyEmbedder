@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 
 namespace Vitevic.Vsx.Command
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class VsxCommandGroupAttribute : Attribute
     {
-        public String PackageId { get; set; }
-        public String CommandGroupId { get; private set; }
+        public string PackageId { get; set; }
+        public string CommandGroupId { get; private set; }
 
-        public VsxCommandGroupAttribute(String commangGroupId)
+        public VsxCommandGroupAttribute(string commangGroupId)
         {
             CommandGroupId = commangGroupId;
             PackageId = "";

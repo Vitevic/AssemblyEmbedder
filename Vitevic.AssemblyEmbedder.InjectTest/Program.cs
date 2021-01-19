@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Vitevic.AssemblyEmbedder.InjectTest
 {
-    class Program
+    internal class Program
     {
         private static Dictionary<string, System.Reflection.Assembly> fields = new Dictionary<string, System.Reflection.Assembly>();
 
-        static System.Reflection.Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
+        private static System.Reflection.Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
         {
             string assemblyName = "Vitevic.Embedded." + new System.Reflection.AssemblyName(args.Name).Name + ".dll";
             if (fields.ContainsKey(assemblyName))
@@ -19,7 +19,7 @@ namespace Vitevic.AssemblyEmbedder.InjectTest
             {
                 if (stream != null)
                 {
-                    byte[] data = new Byte[stream.Length];
+                    byte[] data = new byte[stream.Length];
                     stream.Read(data, 0, data.Length);
                     var assembly = System.Reflection.Assembly.Load(data);
                     fields[assemblyName] = assembly;
@@ -30,7 +30,7 @@ namespace Vitevic.AssemblyEmbedder.InjectTest
             return null;
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
         }
     }

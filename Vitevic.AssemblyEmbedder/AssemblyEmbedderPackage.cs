@@ -16,8 +16,8 @@ namespace Vitevic.AssemblyEmbedder
     [VsxCommandGroup(GuidList.CmdSetGuidString)]
     public sealed class AssemblyEmbedderPackage : BasePackage
     {
-        const int EmptyCookie = -1;
-        int _extenderRegistrationCSharpCookie = EmptyCookie;
+        private const int EmptyCookie = -1;
+        private int _extenderRegistrationCSharpCookie = EmptyCookie;
 
         protected override void PackageInitialize()
         {
@@ -42,7 +42,7 @@ namespace Vitevic.AssemblyEmbedder
         }
 
         [VsxCommandAction(PkgCmdIDList.cmdidEmbed)]
-        static void Embed(IVsxCommand cmd)
+        private static void Embed(IVsxCommand cmd)
         {
             
         }

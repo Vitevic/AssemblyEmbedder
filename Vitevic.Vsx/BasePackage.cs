@@ -36,10 +36,10 @@ namespace Vitevic.Vsx
     public abstract class BasePackage : Package, IVsShellPropertyEvents
     {
         public bool IsAutoloaded { get; private set; }
-        public String ProductName { get; private set; }
+        public string ProductName { get; private set; }
         public EnvDTE.DTE IDE { get; private set; }
 
-        List<VsxCommand> _commands = new List<VsxCommand>();
+        private List<VsxCommand> _commands = new List<VsxCommand>();
         public ReadOnlyCollection<VsxCommand> Commands { get; private set; }
 
         protected BasePackage()
@@ -47,7 +47,7 @@ namespace Vitevic.Vsx
             IsAutoloaded = false;
 
             var autoLoadAttr = GetType().AttributesOfType<ProvideAutoLoadAttribute>().FirstOrDefault();
-            if (autoLoadAttr != null && (0 == String.Compare(autoLoadAttr.LoadGuid.ToString("B"), UIContextGuids.NoSolution, StringComparison.CurrentCultureIgnoreCase)) )
+            if (autoLoadAttr != null && (0 == string.Compare(autoLoadAttr.LoadGuid.ToString("B"), UIContextGuids.NoSolution, StringComparison.CurrentCultureIgnoreCase)) )
                 IsAutoloaded = true;
 
             var productNameAttr = GetType().AttributesOfType<InstalledProductRegistrationAttribute>().FirstOrDefault();
@@ -59,9 +59,9 @@ namespace Vitevic.Vsx
             Commands = new ReadOnlyCollection<VsxCommand>(this._commands);
         }
 
-        public static String GetPackageResourceString(String str, Assembly resourceAssembly)
+        public static string GetPackageResourceString(string str, Assembly resourceAssembly)
         {
-            if (String.IsNullOrEmpty(str) || str[0] != '#' || !char.IsDigit(str, 1))
+            if (string.IsNullOrEmpty(str) || str[0] != '#' || !char.IsDigit(str, 1))
                 return str;
 
             try
@@ -75,7 +75,7 @@ namespace Vitevic.Vsx
                 Debug.WriteLine("Can not find package resource string '{0}' in '{1}' assembly: {2}", str, resourceAssembly.FullName, e.Message);
             }
 
-            return String.Empty;
+            return string.Empty;
         }
 
         public T GetService<T>()
@@ -101,7 +101,7 @@ namespace Vitevic.Vsx
             return (TInterface)GetGlobalService(typeof(T));
         }
 
-        public DialogResult ShowMessage(String text, String title = null,
+        public DialogResult ShowMessage(string text, string title = null,
                                         OLEMSGBUTTON buttons = OLEMSGBUTTON.OLEMSGBUTTON_OK,
                                         OLEMSGDEFBUTTON defaultButton = OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST,
                                         OLEMSGICON icon = OLEMSGICON.OLEMSGICON_INFO,
@@ -448,7 +448,7 @@ namespace Vitevic.Vsx
 
         #region IVsShellPropertyEvents
 
-        uint _eventSinkCookie;
+        private uint _eventSinkCookie;
         int IVsShellPropertyEvents.OnShellPropertyChange(int propid, object propValue)
         {
             // --- We handle the event if zombie state changes from true to false

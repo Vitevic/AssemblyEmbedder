@@ -8,25 +8,25 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
     public class FindSnTool : Task
     {
         [Required]
-        public String FrameworkSdkPath { get; set; }
+        public string FrameworkSdkPath { get; set; }
 
-        public String PredefinedSnToolPath { get; set; }
+        public string PredefinedSnToolPath { get; set; }
 
         [Output]
-        public String SnToolPath { get; private set; }
+        public string SnToolPath { get; private set; }
 
         public override bool Execute()
         {
             SnToolPath = PredefinedSnToolPath;
 
-            if( String.IsNullOrEmpty(SnToolPath) && Directory.Exists(FrameworkSdkPath) )
+            if( string.IsNullOrEmpty(SnToolPath) && Directory.Exists(FrameworkSdkPath) )
             {
                 string[] temp = Directory.GetFiles(FrameworkSdkPath, "sn.exe", SearchOption.AllDirectories);
                 if (temp != null && temp.Length > 0)
                     SnToolPath = temp[0];
             }
 
-            if (String.IsNullOrEmpty(SnToolPath))
+            if (string.IsNullOrEmpty(SnToolPath))
             {
                 Log.LogError("Cannot find sn.exe");
                 return false;

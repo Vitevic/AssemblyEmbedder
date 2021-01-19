@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace Vitevic.AssemblyEmbedder
 {
-    class ReferenceHierarchyHelper
+    internal class ReferenceHierarchyHelper
     {
         public IVsSolution Solution { get; private set; }
 
@@ -67,7 +67,7 @@ namespace Vitevic.AssemblyEmbedder
             return result;
         }
 
-        static bool IsReferensesFolderItem(VsHierarchyItem item)
+        private static bool IsReferensesFolderItem(VsHierarchyItem item)
         {
             if (item == null)
                 return false;

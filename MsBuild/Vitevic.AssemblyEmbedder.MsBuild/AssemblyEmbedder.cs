@@ -9,13 +9,13 @@ using Mono.Cecil.Pdb;
 
 namespace Vitevic.AssemblyEmbedder.MsBuild
 {
-    class AssemblyEmbedder
+    internal class AssemblyEmbedder
     {
-        TaskLoggingHelper _log;
-        ITaskItem[] _referenses;
-        ITaskItem[] _targetsPath;
-        ITaskItem[] _locals;
-        List<ITaskItem> _removedLocals;
+        private TaskLoggingHelper _log;
+        private ITaskItem[] _referenses;
+        private ITaskItem[] _targetsPath;
+        private ITaskItem[] _locals;
+        private List<ITaskItem> _removedLocals;
 
         internal AssemblyEmbedder(TaskLoggingHelper Log, ITaskItem[] targetsPath, ITaskItem[] referenses, ITaskItem[] locals)
         {
@@ -46,7 +46,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             return this._removedLocals.ToArray();
         }
 
-        System.Reflection.Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
+        private System.Reflection.Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
         {
             string name = new System.Reflection.AssemblyName(args.Name).Name.ToLower();
             switch (name)
@@ -67,7 +67,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             {
                 if (stream != null)
                 {
-                    byte[] data = new Byte[stream.Length];
+                    byte[] data = new byte[stream.Length];
                     stream.Read(data, 0, data.Length);
                     return System.Reflection.Assembly.Load(data);
                 }
@@ -104,7 +104,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             assembly.Write(targetAssemblyPath, writerParameters);
         }
 
-        private AssemblyDefinition ReadAssembly(String targetAssemblyPath, out WriterParameters writerParameters)
+        private static AssemblyDefinition ReadAssembly(string targetAssemblyPath, out WriterParameters writerParameters)
         {
             var assemblyResolver = new DefaultAssemblyResolver();
             assemblyResolver.AddSearchDirectory(Path.GetDirectoryName(targetAssemblyPath));
@@ -151,7 +151,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
 
         private void AddProjectDependencies(IList<EmbeddedItemInfo> itemsToEmbed, bool compress, string projectPath)
         {
-            if (!String.IsNullOrEmpty(projectPath))
+            if (!string.IsNullOrEmpty(projectPath))
             {
                 string projectDir = Path.GetDirectoryName(projectPath);
                 var loadedProject = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectPath).FirstOrDefault();
@@ -184,7 +184,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             if (embedAssemblyPdb)
             {
                 string possiblePdbPath = Path.ChangeExtension(assemblyPath, "pdb");
-                if (!String.IsNullOrEmpty(possiblePdbPath) && File.Exists(possiblePdbPath))
+                if (!string.IsNullOrEmpty(possiblePdbPath) && File.Exists(possiblePdbPath))
                 {
                     var pdbItemInfo = new EmbeddedItemInfo(possiblePdbPath, compress);
                     itemsToEmbed.Add(pdbItemInfo);
@@ -198,7 +198,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             foreach (var local in this._locals)
             {
                 string localPath = local.GetFullPath();
-                if (0 == String.Compare(localPath, path, true))
+                if (0 == string.Compare(localPath, path, true))
                 {
                     this._removedLocals.Add(local);
                 }
@@ -206,7 +206,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                 {
                     string fileName = Path.GetFileName(path);
                     string localFileName = Path.GetFileName(localPath);
-                    if (0 == String.Compare(fileName, localFileName, true))
+                    if (0 == string.Compare(fileName, localFileName, true))
                     {
                         this._removedLocals.Add(local);
                     }

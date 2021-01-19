@@ -3,12 +3,12 @@ using Microsoft.Build.Framework;
 
 namespace Vitevic.AssemblyEmbedder.MsBuild
 {
-    class EmbeddedItemInfo
+    internal class EmbeddedItemInfo
     {
-        internal const String ResourcePrefix = "Vitevic.EmbeddedAssembly.";
+        internal const string ResourcePrefix = "Vitevic.EmbeddedAssembly.";
 
-        internal String Name { get; private set; }
-        internal String Path { get; private set; }
+        internal string Name { get; private set; }
+        internal string Path { get; private set; }
         internal bool Compress { get; set; }
 
         internal EmbeddedItemInfo(ITaskItem reference, bool compress)
@@ -16,7 +16,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
         {
         }
 
-        internal EmbeddedItemInfo(String path, bool compress)
+        internal EmbeddedItemInfo(string path, bool compress)
         {
             Path = path;
             Name = ResourcePrefix + System.IO.Path.GetFileName(Path);

@@ -10,7 +10,7 @@ namespace Vitevic.AssemblyEmbedder
     [ComVisible(true)]
     public class AssemblyReferenceExtender
     {
-        protected const String CategoryName = "Advanced";
+        protected const string CategoryName = "Advanced";
 
         private EnvDTE.IExtenderSite _extenderSite;
         private int _cookie;
@@ -59,9 +59,9 @@ namespace Vitevic.AssemblyEmbedder
                 Reference.CopyLocal = false;
         }
 
-        protected bool GetMsBuildBool(String attributeName)
+        protected bool GetMsBuildBool(string attributeName)
         {
-            String value;
+            string value;
             this._storage.GetItemAttribute(this._itemid, attributeName, out value);
 
             bool result = MsBuild.Attributes.IsTrue(value);
@@ -69,7 +69,7 @@ namespace Vitevic.AssemblyEmbedder
             return result;
         }
 
-        protected void SetMsBuildBool(String attributeName, bool value)
+        protected void SetMsBuildBool(string attributeName, bool value)
         {
             string valueStr = value ? "true" : ""; // "" - will remove attribute
             ErrorHandler.ThrowOnFailure(this._storage.SetItemAttribute(this._itemid, attributeName, valueStr));

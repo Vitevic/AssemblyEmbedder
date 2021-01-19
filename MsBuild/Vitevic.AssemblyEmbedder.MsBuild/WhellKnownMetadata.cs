@@ -3,9 +3,9 @@ using Microsoft.Build.Framework;
 
 namespace Vitevic.AssemblyEmbedder.MsBuild
 {
-    static class WhellKnownMetadata
+    internal static class WhellKnownMetadata
     {
-        internal static String GetFullPath(this ITaskItem taskItem)
+        internal static string GetFullPath(this ITaskItem taskItem)
         {
             if (taskItem == null)
                 throw new ArgumentNullException("taskItem");
@@ -13,7 +13,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             return taskItem.GetMetadata("FullPath");
         }
 
-        internal static String GetFilename(this ITaskItem taskItem)
+        internal static string GetFilename(this ITaskItem taskItem)
         {
             if (taskItem == null)
                 throw new ArgumentNullException("taskItem");
@@ -21,7 +21,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             return taskItem.GetMetadata("Filename");
         }
 
-        internal static String GetExtension(this ITaskItem taskItem)
+        internal static string GetExtension(this ITaskItem taskItem)
         {
             if (taskItem == null)
                 throw new ArgumentNullException("taskItem");
@@ -29,7 +29,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             return taskItem.GetMetadata("Extension");
         }
 
-        internal static String GetMSBuildSourceProjectFile(this ITaskItem taskItem)
+        internal static string GetMSBuildSourceProjectFile(this ITaskItem taskItem)
         {
             if (taskItem == null)
                 throw new ArgumentNullException("taskItem");

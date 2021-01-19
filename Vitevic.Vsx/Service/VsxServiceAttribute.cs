@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.Composition;
 
 namespace Vitevic.Vsx.Service
@@ -8,7 +8,7 @@ namespace Vitevic.Vsx.Service
     public class VsxServiceAttribute : ExportAttribute
     {
         public Type ServiceType { get; private set; }
-        public String PackageId { get; set; }
+        public string PackageId { get; set; }
         public ServiceFlags Flags { get; set; }
 
         public VsxServiceAttribute(Type serviceType)

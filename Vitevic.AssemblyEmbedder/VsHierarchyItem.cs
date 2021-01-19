@@ -54,12 +54,12 @@ namespace Vitevic.AssemblyEmbedder
            return (o is int) && (int)o != 0;
        }
     
-       internal String GetName()
+       internal string GetName()
        {
-           return (String)GetProperty(__VSHPROPID.VSHPROPID_Name);
+           return (string)GetProperty(__VSHPROPID.VSHPROPID_Name);
        }
 
-       internal String GetCanonicalName()
+       internal string GetCanonicalName()
        {
            string canonicalName = null;
            ErrorHandler.ThrowOnFailure(this._hierarchy.GetCanonicalName(this._vsitemid, out canonicalName), VSConstants.E_NOTIMPL);
