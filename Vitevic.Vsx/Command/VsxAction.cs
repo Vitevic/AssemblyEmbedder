@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.Design;
 
 namespace Vitevic.Vsx.Command
@@ -11,12 +11,12 @@ namespace Vitevic.Vsx.Command
         {
             Package = package;
             CommandID = commandId;
-            _action = action;
+            this._action = action;
         }
 
         public override void Execute()
         {
-            _action.Invoke(this);
+            this._action.Invoke(this);
         }
     }
 }

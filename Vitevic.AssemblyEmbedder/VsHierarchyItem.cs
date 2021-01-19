@@ -23,8 +23,8 @@ namespace Vitevic.AssemblyEmbedder
        internal VsHierarchyItem(IVsHierarchy hierarchy, uint id)
        {
            Debug.Assert(hierarchy != null);
-           _vsitemid = id;
-           _hierarchy = hierarchy;
+           this._vsitemid = id;
+           this._hierarchy = hierarchy;
        }
     
        internal VsHierarchyItem(IVsHierarchy hierarchy) : this(hierarchy, VSConstants.VSITEMID_ROOT)
@@ -33,14 +33,14 @@ namespace Vitevic.AssemblyEmbedder
     
        internal uint VsItemID
        {
-           get { return _vsitemid; }
+           get { return this._vsitemid; }
        }
 
        internal IVsUIHierarchy UIHierarchy
        {
            get
            {
-               return _hierarchy as IVsUIHierarchy;
+               return this._hierarchy as IVsUIHierarchy;
            }
        }    
     
@@ -62,7 +62,7 @@ namespace Vitevic.AssemblyEmbedder
        internal String GetCanonicalName()
        {
            string canonicalName = null;
-           ErrorHandler.ThrowOnFailure(_hierarchy.GetCanonicalName(_vsitemid, out canonicalName), VSConstants.E_NOTIMPL);
+           ErrorHandler.ThrowOnFailure(this._hierarchy.GetCanonicalName(this._vsitemid, out canonicalName), VSConstants.E_NOTIMPL);
 
            return canonicalName;
        }
@@ -75,7 +75,7 @@ namespace Vitevic.AssemblyEmbedder
 
        private object GetProperty(__VSHPROPID propid)
        {
-           return GetProperty(_vsitemid, (int)propid);
+           return GetProperty(this._vsitemid, (int)propid);
        }
     
        private object GetProperty(uint itemid, int propid)
@@ -83,9 +83,9 @@ namespace Vitevic.AssemblyEmbedder
            try
            {
                object o = null;
-               if (_hierarchy != null)
+               if (this._hierarchy != null)
                {
-                   _hierarchy.GetProperty(itemid, propid, out o);
+                   this._hierarchy.GetProperty(itemid, propid, out o);
                }
     
                return o;
@@ -154,7 +154,7 @@ namespace Vitevic.AssemblyEmbedder
            uint childId = GetNextSiblingId(fVisible);
            if (childId != VSConstants.VSITEMID_NIL)
            {
-               return new VsHierarchyItem(_hierarchy, childId);
+               return new VsHierarchyItem(this._hierarchy, childId);
            }
            return null;
        }
@@ -182,7 +182,7 @@ namespace Vitevic.AssemblyEmbedder
            uint childId = GetFirstChildId(fVisible);
            if (childId != VSConstants.VSITEMID_NIL)
            {
-               return new VsHierarchyItem(_hierarchy, childId);
+               return new VsHierarchyItem(this._hierarchy, childId);
            }
            return null;
        }
@@ -218,7 +218,7 @@ namespace Vitevic.AssemblyEmbedder
     
        public override int GetHashCode()
        {
-           return _vsitemid.GetHashCode();
+           return this._vsitemid.GetHashCode();
        }
     }
 }

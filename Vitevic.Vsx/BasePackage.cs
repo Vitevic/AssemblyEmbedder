@@ -56,7 +56,7 @@ namespace Vitevic.Vsx
                 ProductName = GetPackageResourceString(productNameAttr.ProductName, GetType().Assembly);
             }
 
-            Commands = new ReadOnlyCollection<VsxCommand>(_commands);
+            Commands = new ReadOnlyCollection<VsxCommand>(this._commands);
         }
 
         public static String GetPackageResourceString(String str, Assembly resourceAssembly)
@@ -181,7 +181,7 @@ namespace Vitevic.Vsx
                 if( shellService != null )
                 {
                     ErrorHandler.ThrowOnFailure(
-                      shellService.AdviseShellPropertyChanges(this, out _eventSinkCookie));
+                      shellService.AdviseShellPropertyChanges(this, out this._eventSinkCookie));
                 }
             }
             else
@@ -197,17 +197,17 @@ namespace Vitevic.Vsx
         {
             if (disposing)
             {
-                Debug.Assert(_eventSinkCookie == 0, "Dispose before the shell activates...");
+                Debug.Assert(this._eventSinkCookie == 0, "Dispose before the shell activates...");
                 PackageCleanup();
-                if (_iocContainer != null)
+                if (this._iocContainer != null)
                 {
-                    _iocContainer.Dispose();
-                    _iocContainer = null;
+                    this._iocContainer.Dispose();
+                    this._iocContainer = null;
                 }
-                if (_packageAssemblyCatalog != null)
+                if (this._packageAssemblyCatalog != null)
                 {
-                    _packageAssemblyCatalog.Dispose();
-                    _packageAssemblyCatalog = null;
+                    this._packageAssemblyCatalog.Dispose();
+                    this._packageAssemblyCatalog = null;
                 }
             }
 
@@ -245,9 +245,9 @@ namespace Vitevic.Vsx
             try
             {
                 //  TODO: add thisCatalog & container to disposing list
-                _packageAssemblyCatalog = new AssemblyCatalog(GetType().Assembly);
-                _iocContainer = new CompositionContainer(_packageAssemblyCatalog);
-                _iocContainer.SatisfyImportsOnce(this);
+                this._packageAssemblyCatalog = new AssemblyCatalog(GetType().Assembly);
+                this._iocContainer = new CompositionContainer(this._packageAssemblyCatalog);
+                this._iocContainer.SatisfyImportsOnce(this);
             }
             catch (Exception e)
             {
@@ -266,7 +266,7 @@ namespace Vitevic.Vsx
 
         private void AddCommandActions(Guid thisPackageId)
         {
-            foreach( var action in _commandActionDefinitions )
+            foreach( var action in this._commandActionDefinitions )
             {
                 Debug.WriteLine("\tFound action. Group: '{0}', Id: '{1}'.", action.Metadata.CommandGroupId, action.Metadata.CommandId);
                 Debug.WriteLineIf(action.Value.Target != null, "\t\tWARNIG: not a static method!");
@@ -292,14 +292,14 @@ namespace Vitevic.Vsx
             var action = new VsxAction(this, commandId, obj.Value);
             action.Register(obj.Metadata.Flags);
 
-            _commands.Add(action);
+            this._commands.Add(action);
         }
 
         #region Service registration
 
         private void AddServices(Guid packageId)
         {
-            foreach (var service in _serviceDefinitions)
+            foreach (var service in this._serviceDefinitions)
             {
                 Debug.WriteLine("\tFound '{0}' VsxService from '{1}' Packet. Flags: {2}.", service.Metadata.ServiceType.Name,
                                 service.Metadata.PackageId, service.Metadata.Flags);
@@ -325,7 +325,7 @@ namespace Vitevic.Vsx
             if (container != this)
                 return null;
 
-            var obj = _serviceDefinitions.FirstOrDefault(x => x.Metadata.ServiceType == serviceType);
+            var obj = this._serviceDefinitions.FirstOrDefault(x => x.Metadata.ServiceType == serviceType);
 
             return obj == null ? null : CreateVsxServiceObject(obj);
         }
@@ -360,7 +360,7 @@ namespace Vitevic.Vsx
 
         private void AddCommands(Guid packageId)
         {
-            foreach (var command in _commandDefinitions)
+            foreach (var command in this._commandDefinitions)
             {
                 Debug.WriteLine("\tFound VsxCommand. Group: '{0}', Id: '{1}', Package: '{2}'", command.Metadata.CommandGroupId, command.Metadata.CommandId, command.Metadata.PackageId);
 
@@ -387,7 +387,7 @@ namespace Vitevic.Vsx
             command.Package = this;
             command.Register( obj.Metadata.Flags );
 
-            _commands.Add(command);
+            this._commands.Add(command);
         }
 
         private static bool ShouldSkipCommandOrAction<T>(Lazy<T, IVsxCommandMetadata> commandOrAction, Guid packageId)
@@ -461,9 +461,10 @@ namespace Vitevic.Vsx
                     var shellService = GetService<SVsShell,IVsShell>();
                     if (shellService != null)
                     {
-                        ErrorHandler.ThrowOnFailure( shellService.UnadviseShellPropertyChanges(_eventSinkCookie) );
+                        ErrorHandler.ThrowOnFailure( shellService.UnadviseShellPropertyChanges(this._eventSinkCookie) );
                     }
-                    _eventSinkCookie = 0;
+
+                    this._eventSinkCookie = 0;
                 }
             }
             return VSConstants.S_OK;

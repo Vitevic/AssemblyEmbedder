@@ -19,11 +19,11 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
 
         internal AssemblyEmbedder(TaskLoggingHelper Log, ITaskItem[] targetsPath, ITaskItem[] referenses, ITaskItem[] locals)
         {
-            _log = Log;
-            _targetsPath = targetsPath;
-            _referenses = referenses;
-            _locals = locals;
-            _removedLocals = new List<ITaskItem>();
+            this._log = Log;
+            this._targetsPath = targetsPath;
+            this._referenses = referenses;
+            this._locals = locals;
+            this._removedLocals = new List<ITaskItem>();
         }
 
         internal ITaskItem[] Process()
@@ -32,9 +32,9 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             var itemsToEmbed = PrepareItemsToEmbed();
             if (itemsToEmbed.Count > 0)
             {
-                if (_targetsPath == null || _targetsPath.Length == 0)
+                if (this._targetsPath == null || this._targetsPath.Length == 0)
                 {
-                    _log.LogError("No target specified");
+                    this._log.LogError("No target specified");
                 }
                 else
                 {
@@ -43,7 +43,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             }
 
             AppDomain.CurrentDomain.AssemblyResolve -= OnResolveAssembly;
-            return _removedLocals.ToArray();
+            return this._removedLocals.ToArray();
         }
 
         System.Reflection.Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
@@ -78,14 +78,14 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
 
         private void EmbedAssemblies(ICollection<EmbeddedItemInfo> itemsToEmbed)
         {
-            string targetAssemblyPath = _targetsPath[0].GetFullPath();
+            string targetAssemblyPath = this._targetsPath[0].GetFullPath();
             WriterParameters writerParameters;
             var assembly = ReadAssembly(targetAssemblyPath, out writerParameters);
 
             foreach (var item in itemsToEmbed)
             {
-                string message = String.Format("Embedding \"{0}\"", item.Path);
-                _log.LogMessageFromText(message, MessageImportance.Normal);
+                string message = $"Embedding \"{item.Path}\"";
+                this._log.LogMessageFromText(message, MessageImportance.Normal);
 
                 byte[] data = File.ReadAllBytes(item.Path);
                 var resource = new EmbeddedResource(item.Name, ManifestResourceAttributes.Private, data);
@@ -124,7 +124,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
         private ICollection<EmbeddedItemInfo> PrepareItemsToEmbed()
         {
             List<EmbeddedItemInfo> itemsToEmbed = new List<EmbeddedItemInfo>();
-            foreach (var reference in _referenses)
+            foreach (var reference in this._referenses)
             {
                 bool embedAssembly = Attributes.IsTrue(reference.GetMetadata(Attributes.EmbedAssemblyName));
                 if (embedAssembly)
@@ -132,7 +132,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                     bool compress = Attributes.IsTrue(reference.GetMetadata(Attributes.CompressEmbededDataName));
                     var embedInfo = new EmbeddedItemInfo(reference, compress);
                     itemsToEmbed.Add(embedInfo);
-                    _removedLocals.Add(reference);
+                    this._removedLocals.Add(reference);
                     string possibleDocPath = Path.ChangeExtension(embedInfo.Path, "xml");
                     RemoveFromLocals(possibleDocPath);
 
@@ -153,7 +153,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
         {
             if (!String.IsNullOrEmpty(projectPath))
             {
-                string projectDir = System.IO.Path.GetDirectoryName(projectPath);
+                string projectDir = Path.GetDirectoryName(projectPath);
                 var loadedProject = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectPath).FirstOrDefault();
                 if (loadedProject == null)
                     return;
@@ -195,12 +195,12 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
 
         private void RemoveFromLocals(string path, bool testFileName = false)
         {
-            foreach (var local in _locals)
+            foreach (var local in this._locals)
             {
                 string localPath = local.GetFullPath();
                 if (0 == String.Compare(localPath, path, true))
                 {
-                    _removedLocals.Add(local);
+                    this._removedLocals.Add(local);
                 }
                 else if (testFileName)
                 {
@@ -208,7 +208,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                     string localFileName = Path.GetFileName(localPath);
                     if (0 == String.Compare(fileName, localFileName, true))
                     {
-                        _removedLocals.Add(local);
+                        this._removedLocals.Add(local);
                     }
                 }
             }

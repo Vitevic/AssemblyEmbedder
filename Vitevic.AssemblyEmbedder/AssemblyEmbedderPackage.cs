@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
@@ -26,7 +26,7 @@ namespace Vitevic.AssemblyEmbedder
 
             var solution = GetGlobalService<SVsSolution,IVsSolution>();
             var extenderProvider = new ReferenceExtenderProvider(IDE, solution);
-            _extenderRegistrationCSharpCookie = objectExtenders.RegisterExtenderProvider(VSLangProj.PrjBrowseObjectCATID.prjCATIDCSharpReferenceBrowseObject,
+            this._extenderRegistrationCSharpCookie = objectExtenders.RegisterExtenderProvider(VSLangProj.PrjBrowseObjectCATID.prjCATIDCSharpReferenceBrowseObject,
                 ReferenceExtenderProvider.ExtenderName, extenderProvider);
         }
 
@@ -34,10 +34,10 @@ namespace Vitevic.AssemblyEmbedder
         {
             var objectExtenders = GetService<ObjectExtenders>();
 
-            if (_extenderRegistrationCSharpCookie != EmptyCookie && objectExtenders != null)
+            if (this._extenderRegistrationCSharpCookie != EmptyCookie && objectExtenders != null)
             {
-                objectExtenders.UnregisterExtenderProvider(_extenderRegistrationCSharpCookie);
-                _extenderRegistrationCSharpCookie = EmptyCookie;
+                objectExtenders.UnregisterExtenderProvider(this._extenderRegistrationCSharpCookie);
+                this._extenderRegistrationCSharpCookie = EmptyCookie;
             }
         }
 

@@ -15,8 +15,8 @@ namespace Vitevic.AssemblyEmbedder
 
        public ReferenceExtenderProvider(DTE ide, IVsSolution solution)
        {
-           _ide = ide;
-           _helper = new ReferenceHierarchyHelper(solution);
+           this._ide = ide;
+           this._helper = new ReferenceHierarchyHelper(solution);
        }
     
        public bool CanExtend(string extenderCATID, string extenderName, object extendeeObject)
@@ -43,7 +43,7 @@ namespace Vitevic.AssemblyEmbedder
            Debug.Assert( extenderName.IsEqualNoCase(ExtenderName) );
 
            var reference = (VSLangProj.Reference)extendeeObject;
-           var hierarchyItem = _helper.FindReferenceItemId(reference);
+           var hierarchyItem = this._helper.FindReferenceItemId(reference);
            if( hierarchyItem == null )
            {
                Debug.WriteLine("{0}: null hierarchy item for '{1}'", ExtenderName, reference.Name);

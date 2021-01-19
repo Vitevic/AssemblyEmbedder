@@ -21,10 +21,10 @@ namespace Vitevic.AssemblyEmbedder
 
         public AssemblyReferenceExtender(EnvDTE.IExtenderSite extenderSite, int cookie, VSLangProj.Reference reference, IVsBuildPropertyStorage storage, uint itemId)
         {
-            _extenderSite = extenderSite;
-            _cookie = cookie;
-            _storage = storage;
-            _itemid = itemId;
+            this._extenderSite = extenderSite;
+            this._cookie = cookie;
+            this._storage = storage;
+            this._itemid = itemId;
 
             Reference = reference;
         }
@@ -33,8 +33,7 @@ namespace Vitevic.AssemblyEmbedder
         {
             try
             {
-                if( _extenderSite != null )
-                    _extenderSite.NotifyDelete(_cookie);
+                if(this._extenderSite != null ) this._extenderSite.NotifyDelete(this._cookie);
             }
             catch(Exception ex)
             {
@@ -46,10 +45,10 @@ namespace Vitevic.AssemblyEmbedder
         [Category(CategoryName)]
         public bool EmbedAssembly
         {
-            get { return GetMsBuildBool(Vitevic.AssemblyEmbedder.MsBuild.Attributes.EmbedAssemblyName); }
+            get { return GetMsBuildBool(MsBuild.Attributes.EmbedAssemblyName); }
             set
             {
-                SetMsBuildBool(Vitevic.AssemblyEmbedder.MsBuild.Attributes.EmbedAssemblyName, value);
+                SetMsBuildBool(MsBuild.Attributes.EmbedAssemblyName, value);
                 OnSetEmbedAssembly(value);
             }
         }
@@ -63,9 +62,9 @@ namespace Vitevic.AssemblyEmbedder
         protected bool GetMsBuildBool(String attributeName)
         {
             String value;
-            _storage.GetItemAttribute(_itemid, attributeName, out value);
+            this._storage.GetItemAttribute(this._itemid, attributeName, out value);
 
-            bool result = Vitevic.AssemblyEmbedder.MsBuild.Attributes.IsTrue(value);
+            bool result = MsBuild.Attributes.IsTrue(value);
 
             return result;
         }
@@ -73,7 +72,7 @@ namespace Vitevic.AssemblyEmbedder
         protected void SetMsBuildBool(String attributeName, bool value)
         {
             string valueStr = value ? "true" : ""; // "" - will remove attribute
-            ErrorHandler.ThrowOnFailure(_storage.SetItemAttribute(_itemid, attributeName, valueStr));
+            ErrorHandler.ThrowOnFailure(this._storage.SetItemAttribute(this._itemid, attributeName, valueStr));
         }
 
     }

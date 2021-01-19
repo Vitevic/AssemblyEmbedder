@@ -20,11 +20,10 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            var ctor = new MethodDefinition(".cctor",
                        MethodAttributes.Static |
                        MethodAttributes.SpecialName |
-                       MethodAttributes.RTSpecialName,
-                       assembly.MainModule.Import(typeof(void)));
+                       MethodAttributes.RTSpecialName, this.assembly.MainModule.Import(typeof(void)));
     
            var il = ctor.Body.GetILProcessor();
-           il.Emit(OpCodes.Newobj, assembly.MainModule.Import(fieldType.GetConstructor(new Type[0])));
+           il.Emit(OpCodes.Newobj, this.assembly.MainModule.Import(fieldType.GetConstructor(new Type[0])));
            il.Emit(OpCodes.Stsfld, field);
            il.Emit(OpCodes.Call, ImportMethod<AppDomain>("get_CurrentDomain"));
            il.Emit(OpCodes.Ldnull);
@@ -78,7 +77,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
            var il = method.Body.GetILProcessor();
            il.Emit(OpCodes.Ldstr, EmbeddedItemInfo.ResourcePrefix);
            il.Emit(OpCodes.Ldarg_1);
-           il.Emit(OpCodes.Callvirt, ImportMethod<System.ResolveEventArgs>("get_Name"));
+           il.Emit(OpCodes.Callvirt, ImportMethod<ResolveEventArgs>("get_Name"));
            il.Emit(OpCodes.Newobj, ImportCtor<System.Reflection.AssemblyName>(typeof(string)));
            il.Emit(OpCodes.Call, ImportMethod<System.Reflection.AssemblyName>("get_Name"));
            il.Emit(OpCodes.Ldstr, ".dll");
@@ -164,34 +163,34 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
     
        private TypeReference ImportType<T>()
        {
-           return assembly.MainModule.Import(typeof(T));
+           return this.assembly.MainModule.Import(typeof(T));
        }
        private MethodReference ImportMethod(Type type, string methodName)
        {
-           return assembly.MainModule.Import(type.GetMethod(methodName));
+           return this.assembly.MainModule.Import(type.GetMethod(methodName));
        }
        private MethodReference ImportMethod<T>(string methodName)
        {
-           return assembly.MainModule.Import(typeof(T).GetMethod(methodName));
+           return this.assembly.MainModule.Import(typeof(T).GetMethod(methodName));
        }
        private MethodReference ImportMethod<T>(string methodName, params Type[] types)
        {
-           return assembly.MainModule.Import(typeof(T).GetMethod(methodName, types));
+           return this.assembly.MainModule.Import(typeof(T).GetMethod(methodName, types));
        }
        private MethodReference ImportCtor<T>(params Type[] types)
        {
-           return assembly.MainModule.Import(typeof(T).GetConstructor(types));
+           return this.assembly.MainModule.Import(typeof(T).GetConstructor(types));
        }
     
        internal void Inject()
        {
            var fieldType = typeof(System.Collections.Generic.Dictionary<string, System.Reflection.Assembly>);
-           var field = new FieldDefinition("assemblies", FieldAttributes.Private | FieldAttributes.Static, assembly.MainModule.Import(fieldType) );
+           var field = new FieldDefinition("assemblies", FieldAttributes.Private | FieldAttributes.Static, this.assembly.MainModule.Import(fieldType) );
 
            var assemblyResolve = DefineOnAssemblyResolveMethod(fieldType, field);
            var ctor = DefineModuleCtor(fieldType, field, assemblyResolve);
     
-           var moduleType = assembly.MainModule.Types.Single(x => x.Name == "<Module>");
+           var moduleType = this.assembly.MainModule.Types.Single(x => x.Name == "<Module>");
            moduleType.Methods.Add(assemblyResolve);
            moduleType.Methods.Add(ctor);
            moduleType.Fields.Add(field);
