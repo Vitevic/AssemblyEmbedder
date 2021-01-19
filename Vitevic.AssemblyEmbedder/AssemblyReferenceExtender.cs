@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -72,7 +72,7 @@ namespace Vitevic.AssemblyEmbedder
 
         protected void SetMsBuildBool(String attributeName, bool value)
         {
-            var valueStr = value ? "true" : ""; // "" - will remove attribute
+            string valueStr = value ? "true" : ""; // "" - will remove attribute
             ErrorHandler.ThrowOnFailure(_storage.SetItemAttribute(_itemid, attributeName, valueStr));
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -41,8 +41,8 @@ namespace Vitevic.Foundation.Extensions
             if (plainText == null)
                 throw new ArgumentNullException("plainText");
 
-            var data = Encoding.Unicode.GetBytes(plainText);
-            var encrypted = ProtectedData.Protect(data, null, scope);
+            byte[] data = Encoding.Unicode.GetBytes(plainText);
+            byte[] encrypted = ProtectedData.Protect(data, null, scope);
 
             return Convert.ToBase64String(encrypted);
         }
@@ -65,8 +65,8 @@ namespace Vitevic.Foundation.Extensions
             if (cipher == null)
                 throw new ArgumentNullException("cipher");
 
-            var data = Convert.FromBase64String(cipher);
-            var decrypted = ProtectedData.Unprotect(data, null, scope);
+            byte[] data = Convert.FromBase64String(cipher);
+            byte[] decrypted = ProtectedData.Unprotect(data, null, scope);
 
             return Encoding.Unicode.GetString(decrypted);
         }
@@ -90,11 +90,11 @@ namespace Vitevic.Foundation.Extensions
             var ptr = Marshal.SecureStringToCoTaskMemUnicode(value);
             try
             {
-                var buffer = new char[value.Length];
+                char[] buffer = new char[value.Length];
                 Marshal.Copy(ptr, buffer, 0, value.Length);
 
-                var data = Encoding.Unicode.GetBytes(buffer);
-                var encrypted = ProtectedData.Protect(data, null, scope);
+                byte[] data = Encoding.Unicode.GetBytes(buffer);
+                byte[] encrypted = ProtectedData.Protect(data, null, scope);
 
                 return Convert.ToBase64String(encrypted);
             }
@@ -121,17 +121,17 @@ namespace Vitevic.Foundation.Extensions
             if (cipher == null)
                 throw new ArgumentNullException("cipher");
 
-            var data = Convert.FromBase64String(cipher);
-            var decrypted = ProtectedData.Unprotect(data, null, scope);
+            byte[] data = Convert.FromBase64String(cipher);
+            byte[] decrypted = ProtectedData.Unprotect(data, null, scope);
             var ss = new SecureString();
 
             if (decrypted.Length > 0)
             {
                 //parse characters one by one - doesn't change the fact that
                 //we have them in memory however...
-                var count = Encoding.Unicode.GetCharCount(decrypted);
-                var bc = decrypted.Length / count;
-                for (var i = 0; i < count; i++)
+                int count = Encoding.Unicode.GetCharCount(decrypted);
+                int bc = decrypted.Length / count;
+                for (int i = 0; i < count; i++)
                 {
                     ss.AppendChar(Encoding.Unicode.GetChars(decrypted, i * bc, bc)[0]);
                 }
@@ -157,8 +157,8 @@ namespace Vitevic.Foundation.Extensions
                 throw new ArgumentNullException("value");
 
             var secured = new SecureString();
-            var charArray = value.ToArray();
-            foreach (var t in charArray)
+            char[] charArray = value.ToArray();
+            foreach (char t in charArray)
             {
                 secured.AppendChar(t);
             }
@@ -233,14 +233,14 @@ namespace Vitevic.Foundation.Extensions
                 byte byteA = 1;
                 byte byteB = 1;
 
-                var index = 0;
+                int index = 0;
                 while (((char)byteA) != '\0' && ((char)byteB) != '\0')
                 {
                     byteA = Marshal.ReadByte(ptrA, index);
                     byteB = Marshal.ReadByte(ptrB, index);
 
-                    var byteA2 = Marshal.ReadByte(ptrA, index+1);
-                    var byteB2 = Marshal.ReadByte(ptrB, index+1);
+                    byte byteA2 = Marshal.ReadByte(ptrA, index+1);
+                    byte byteB2 = Marshal.ReadByte(ptrB, index+1);
 
                     if (byteA != byteB || byteA2 != byteB2)
                         return false;

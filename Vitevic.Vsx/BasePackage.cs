@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -67,7 +67,7 @@ namespace Vitevic.Vsx
             try
             {
                 var rm = new ResourceManager("VSPackage", resourceAssembly);
-                var resId = str.Substring(1);
+                string resId = str.Substring(1);
                 return rm.GetString(resId);
             }
             catch (Exception e)
@@ -309,8 +309,8 @@ namespace Vitevic.Vsx
 
                 var container = (IServiceContainer) this;
                 var serviceType = service.Metadata.ServiceType;
-                var promote = service.Metadata.Flags.HasFlag(ServiceFlags.Global);
-                var autoCreate = service.Metadata.Flags.HasFlag(ServiceFlags.AutoCreate);
+                bool promote = service.Metadata.Flags.HasFlag(ServiceFlags.Global);
+                bool autoCreate = service.Metadata.Flags.HasFlag(ServiceFlags.AutoCreate);
 
                 if (autoCreate)
                     container.AddService(serviceType, CreateVsxServiceObject(service), promote);
@@ -340,7 +340,7 @@ namespace Vitevic.Vsx
 
         private static bool ShouldSkipService(Lazy<IVsxService, IVsxServiceMetadata> service, Guid packageId)
         {
-            var manualBind = service.Metadata.Flags.HasFlag(ServiceFlags.ManualBind);
+            bool manualBind = service.Metadata.Flags.HasFlag(ServiceFlags.ManualBind);
             if (manualBind)
                 return true; // auto binding not required
 

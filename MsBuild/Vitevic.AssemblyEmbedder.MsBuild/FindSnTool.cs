@@ -21,7 +21,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
 
             if( String.IsNullOrEmpty(SnToolPath) && Directory.Exists(FrameworkSdkPath) )
             {
-                var temp = Directory.GetFiles(FrameworkSdkPath, "sn.exe", SearchOption.AllDirectories);
+                string[] temp = Directory.GetFiles(FrameworkSdkPath, "sn.exe", SearchOption.AllDirectories);
                 if (temp != null && temp.Length > 0)
                     SnToolPath = temp[0];
             }

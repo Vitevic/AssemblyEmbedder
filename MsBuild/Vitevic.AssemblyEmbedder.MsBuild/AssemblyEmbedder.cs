@@ -48,7 +48,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
 
         System.Reflection.Assembly OnResolveAssembly(object sender, ResolveEventArgs args)
         {
-            var name = new System.Reflection.AssemblyName(args.Name).Name.ToLower();
+            string name = new System.Reflection.AssemblyName(args.Name).Name.ToLower();
             switch (name)
             {
                 case "mono.cecil":
@@ -67,7 +67,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             {
                 if (stream != null)
                 {
-                    var data = new Byte[stream.Length];
+                    byte[] data = new Byte[stream.Length];
                     stream.Read(data, 0, data.Length);
                     return System.Reflection.Assembly.Load(data);
                 }
@@ -78,16 +78,16 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
 
         private void EmbedAssemblies(ICollection<EmbeddedItemInfo> itemsToEmbed)
         {
-            var targetAssemblyPath = _targetsPath[0].GetFullPath();
-            WriterParameters writerParameters = null;
+            string targetAssemblyPath = _targetsPath[0].GetFullPath();
+            WriterParameters writerParameters;
             var assembly = ReadAssembly(targetAssemblyPath, out writerParameters);
 
             foreach (var item in itemsToEmbed)
             {
-                var message = String.Format("Embedding \"{0}\"", item.Path);
+                string message = String.Format("Embedding \"{0}\"", item.Path);
                 _log.LogMessageFromText(message, MessageImportance.Normal);
 
-                var data = File.ReadAllBytes(item.Path);
+                byte[] data = File.ReadAllBytes(item.Path);
                 var resource = new EmbeddedResource(item.Name, ManifestResourceAttributes.Private, data);
                 assembly.MainModule.Resources.Add(resource);
             }
@@ -110,7 +110,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             assemblyResolver.AddSearchDirectory(Path.GetDirectoryName(targetAssemblyPath));
             var readerParameters = new ReaderParameters { AssemblyResolver = assemblyResolver };
             writerParameters = new WriterParameters();
-            var pdbPath = Path.ChangeExtension(targetAssemblyPath, "pdb");
+            string pdbPath = Path.ChangeExtension(targetAssemblyPath, "pdb");
             if (File.Exists(pdbPath))
             {
                 readerParameters.SymbolReaderProvider = new PdbReaderProvider();
@@ -126,21 +126,21 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
             List<EmbeddedItemInfo> itemsToEmbed = new List<EmbeddedItemInfo>();
             foreach (var reference in _referenses)
             {
-                var embedAssembly = Attributes.IsTrue(reference.GetMetadata(Attributes.EmbedAssemblyName));
+                bool embedAssembly = Attributes.IsTrue(reference.GetMetadata(Attributes.EmbedAssemblyName));
                 if (embedAssembly)
                 {
-                    var compress = Attributes.IsTrue(reference.GetMetadata(Attributes.CompressEmbededDataName));
+                    bool compress = Attributes.IsTrue(reference.GetMetadata(Attributes.CompressEmbededDataName));
                     var embedInfo = new EmbeddedItemInfo(reference, compress);
                     itemsToEmbed.Add(embedInfo);
                     _removedLocals.Add(reference);
-                    var possibleDocPath = Path.ChangeExtension(embedInfo.Path, "xml");
+                    string possibleDocPath = Path.ChangeExtension(embedInfo.Path, "xml");
                     RemoveFromLocals(possibleDocPath);
 
                     //PreparePdb(itemsToEmbed, reference, compress, embedInfo.Path);
-                    var embedAssemblyDependensies = Attributes.IsTrue(reference.GetMetadata(Attributes.EmbedAssemblyDependenciesName));
+                    bool embedAssemblyDependensies = Attributes.IsTrue(reference.GetMetadata(Attributes.EmbedAssemblyDependenciesName));
                     if( embedAssemblyDependensies )
                     {
-                        var projectPath = reference.GetMSBuildSourceProjectFile();
+                        string projectPath = reference.GetMSBuildSourceProjectFile();
                         AddProjectDependencies(itemsToEmbed, compress, projectPath);
                     }                    
                 }
@@ -153,7 +153,7 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
         {
             if (!String.IsNullOrEmpty(projectPath))
             {
-                var projectDir = System.IO.Path.GetDirectoryName(projectPath);
+                string projectDir = System.IO.Path.GetDirectoryName(projectPath);
                 var loadedProject = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.GetLoadedProjects(projectPath).FirstOrDefault();
                 if (loadedProject == null)
                     return;
@@ -163,13 +163,13 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
                                          select x;
                 foreach (var project in dependencyProjects)
                 {
-                    var depPath = Path.Combine(projectDir, project.EvaluatedInclude);
+                    string depPath = Path.Combine(projectDir, project.EvaluatedInclude);
                     depPath = Path.GetFullPath(depPath); // to remove "/../../" in depPath
                     var depLoadedProject = Microsoft.Build.Evaluation.ProjectCollection.GlobalProjectCollection.GetLoadedProjects(depPath).FirstOrDefault();
                     if (depLoadedProject == null)
                         continue;
 
-                    var dependencyDllPath = depLoadedProject.GetPropertyValue("TargetPath");
+                    string dependencyDllPath = depLoadedProject.GetPropertyValue("TargetPath");
                     var depEmbedInfo = new EmbeddedItemInfo(dependencyDllPath, compress);
                     itemsToEmbed.Add(depEmbedInfo);
                     RemoveFromLocals(dependencyDllPath, true);
@@ -180,10 +180,10 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
 
         private void PreparePdb(List<EmbeddedItemInfo> itemsToEmbed, ITaskItem reference, bool compress, string assemblyPath)
         {
-            var embedAssemblyPdb = Attributes.IsTrue(reference.GetMetadata(Attributes.EmbedAssemblyPdbName));
+            bool embedAssemblyPdb = Attributes.IsTrue(reference.GetMetadata(Attributes.EmbedAssemblyPdbName));
             if (embedAssemblyPdb)
             {
-                var possiblePdbPath = Path.ChangeExtension(assemblyPath, "pdb");
+                string possiblePdbPath = Path.ChangeExtension(assemblyPath, "pdb");
                 if (!String.IsNullOrEmpty(possiblePdbPath) && File.Exists(possiblePdbPath))
                 {
                     var pdbItemInfo = new EmbeddedItemInfo(possiblePdbPath, compress);
@@ -197,15 +197,15 @@ namespace Vitevic.AssemblyEmbedder.MsBuild
         {
             foreach (var local in _locals)
             {
-                var localPath = local.GetFullPath();
+                string localPath = local.GetFullPath();
                 if (0 == String.Compare(localPath, path, true))
                 {
                     _removedLocals.Add(local);
                 }
                 else if (testFileName)
                 {
-                    var fileName = Path.GetFileName(path);
-                    var localFileName = Path.GetFileName(localPath);
+                    string fileName = Path.GetFileName(path);
+                    string localFileName = Path.GetFileName(localPath);
                     if (0 == String.Compare(fileName, localFileName, true))
                     {
                         _removedLocals.Add(local);

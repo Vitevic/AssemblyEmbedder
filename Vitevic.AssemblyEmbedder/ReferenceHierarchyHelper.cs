@@ -16,7 +16,7 @@ namespace Vitevic.AssemblyEmbedder
         /// <returns>may return null</returns>
         public VsHierarchyItem FindReferenceItemId(VSLangProj.Reference reference)
         {
-            var projectName = reference.ContainingProject.UniqueName;
+            string projectName = reference.ContainingProject.UniqueName;
             IVsHierarchy hierarchy;
             ErrorHandler.ThrowOnFailure(Solution.GetProjectOfUniqueName(projectName, out hierarchy));
             var rootItem = new VsHierarchyItem(hierarchy);
@@ -72,8 +72,8 @@ namespace Vitevic.AssemblyEmbedder
             if (item == null)
                 return false;
 
-            var name = item.GetName();
-            var canonicalName = item.GetCanonicalName();
+            string name = item.GetName();
+            string canonicalName = item.GetCanonicalName();
             var brObj = item.GetBrowseObject();
 
             return canonicalName == null && brObj == null;
