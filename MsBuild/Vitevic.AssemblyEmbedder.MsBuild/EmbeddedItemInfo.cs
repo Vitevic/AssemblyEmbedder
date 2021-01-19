@@ -1,11 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Build.Framework;
-using Microsoft.Build;
-using Microsoft.Build.Utilities;
-using Mono.Cecil;
 
 namespace Vitevic.AssemblyEmbedder.MsBuild
 {

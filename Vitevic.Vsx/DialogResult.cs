@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Vitevic.Vsx
+﻿namespace Vitevic.Vsx
 {
     /// <summary>
     /// Dialog result values. These match Windows buttons IDs (IDOK, IDCANCEL, etc.) In addition we define the result for failure to display the dialog. WPF dialogs return OK/Cancel for the boolean value result of ShowDialog() call, and Fail if the dialog does not have return value yet.

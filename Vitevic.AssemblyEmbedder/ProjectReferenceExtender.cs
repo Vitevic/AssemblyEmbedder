@@ -1,8 +1,6 @@
-using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell.Interop;
-using Vitevic.AssemblyEmbedder;
 
 namespace Vitevic.AssemblyEmbedder
 {

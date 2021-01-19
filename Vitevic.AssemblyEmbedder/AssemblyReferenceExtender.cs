@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Diagnostics;
 using Microsoft.VisualStudio.Shell.Interop;
-using Vitevic.Foundation.Extensions;
 using Microsoft.VisualStudio;
 
 namespace Vitevic.AssemblyEmbedder

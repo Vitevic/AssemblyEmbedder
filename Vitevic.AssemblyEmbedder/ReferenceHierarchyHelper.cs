@@ -1,5 +1,4 @@
 using System;
-using EnvDTE;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 
