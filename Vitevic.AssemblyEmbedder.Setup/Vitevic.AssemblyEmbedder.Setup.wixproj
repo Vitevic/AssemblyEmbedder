@@ -20,8 +20,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <VerboseOutput>False</VerboseOutput>
-    <SuppressSpecificWarnings>1076</SuppressSpecificWarnings>
+    <VerboseOutput>True</VerboseOutput>
+    <SuppressSpecificWarnings>1076;1049</SuppressSpecificWarnings>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <SuppressAllWarnings>False</SuppressAllWarnings>
+    <Pedantic>True</Pedantic>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="VS2017.wxs" />

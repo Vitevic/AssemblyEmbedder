@@ -21,24 +21,28 @@
            again when you schedule after InstallFinalize. If you schedule after InstallInitialize, the previous version
            is completely removed first, and then the new version is installed. This results in unnecessary deletion and recopying of files.-->
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." Schedule="afterInstallFinalize" />
-		<MediaTemplate EmbedCab="yes" />
+    <MediaTemplate EmbedCab="yes" />
 
     <Feature Id="MSBuild4Feature" Title="MSBuild4" Level="1">
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild40Targets"/>
     </Feature>
+
     <Feature Id="MSBuild12Feature" Title="MSBuild12" Level="1">
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild12Targets"/>
     </Feature>
+
     <Feature Id="MSBuild14Feature" Title="MSBuild14" Level="1">
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild14Targets"/>
     </Feature>
+
     <Feature Id="MSBuild15Feature" Title="MSBuild15" Level="1">
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild15Targets"/>
     </Feature>
+
     <Feature Id="MSBuild16Feature" Title="MSBuild16" Level="1">
       <ComponentRef Id="MsBuildTaskDll"/>
       <ComponentRef Id="MsBuild16Targets"/>

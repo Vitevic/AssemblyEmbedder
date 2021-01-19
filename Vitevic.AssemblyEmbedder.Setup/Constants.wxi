@@ -8,7 +8,7 @@
 <!--1.0.2 VersionId: <?define ProductId="D1A7BF76-4D90-49F7-90E0-64BA2689573F" ?>-->
 <!--1.0.3 VersionId: <?define ProductId="EEA33FCC-91A9-4A92-9615-E79F0047CE64" ?>-->
 <?define ProductId="3D92E2EC-C08A-482E-92E3-4F73ABDB1070" ?>
-<?define ProductUpgradeCode="cfd68ef0-a7a7-4155-8b16-9e61604cfe80" ?>
+<?define ProductUpgradeCode="CFD68EF0-A7A7-4155-8B16-9E61604CFE80" ?>
 
 <?define Vs2010MainGuid="DB7DD96C-ABA8-4B56-9E2E-82E287B7B75B"?>
 <?define Vs2012MainGuid="9D2C49A9-AD89-4F8E-85DD-B19A1ADADADF"?>
